@@ -663,7 +663,10 @@ Call exit
 
 [Understanding Linux ELF RTLD internals](http://s.eresi-project.org/inc/articles/elf-rtld.txt)
 
-http://www.bottomupcs.com/elf.xhtml
+[Computer Science from the Bottom Up: chapter 8](http://www.bottomupcs.com/elf.xhtml)
+
+[Understanding Linux ELF RTLD internals](http://s.eresi-project.org/inc/articles/elf-rtld.txt)
 
 [漫谈兼容内核之八: ELF映像的装入(一)](http://www.longene.org/techdoc/0328130001224576708.html)
 
+[我的经验书 十年磨一剑](http://nicephil.blinkenshell.org/my_book/ch06.html)
