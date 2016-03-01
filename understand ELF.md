@@ -665,3 +665,5 @@ Call exit
 
 http://www.bottomupcs.com/elf.xhtml
 
+[漫谈兼容内核之八: ELF映像的装入(一)](http://www.longene.org/techdoc/0328130001224576708.html)
+
