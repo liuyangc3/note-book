@@ -1,3 +1,5 @@
+# 如何面试
+
 翻译自: http://www.airs.com/blog/archives/509
 
 作者: Ian Lance Taylor
