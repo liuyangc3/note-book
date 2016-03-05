@@ -1,7 +1,7 @@
 # 位运算
 2016-01-14
 
-liuyangc33@gamil.com
+liuyangc33@gmail.com
 ## `&` 与运算
 有0就为0,没0就为1
 ```python
