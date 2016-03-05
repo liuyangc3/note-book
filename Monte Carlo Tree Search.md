@@ -6,7 +6,7 @@
 Monte Carlo Tree Search，蒙特卡洛树搜索，是一种在人工智能(AI)问题中,做出最佳决策的方法。
 
 from http://mcts.ai/code/python.html
-```
+```python
 # This is a very simple implementation of the UCT Monte Carlo Tree Search algorithm in Python 2.7.
 # The function UCT(rootstate, itermax, verbose = False) is towards the bottom of the code.
 # It aims to have the clearest and simplest possible code, and for the sake of clarity, the code
