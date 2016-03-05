@@ -229,8 +229,18 @@ def bitdump(n):
 10010
 ```
 每 4bit 用空格分开,不足4位的前面补0 
-```
+```python
+def split4(string):
+    length = len(string)
+    if length < 4:
+        ret = (4 - length) * "0" + string
+    else:
+        bits = (4 - length % 4) * "0" + string
+        ret = " ".join([bits[i * 4:(i + 1) * 4] for i in range(len(bits) / 4)])
+    return ret
 
+>>> split4("1101101")
+0110 1101
 ```
 
 #### Base 128 Varint 编码
