@@ -245,7 +245,7 @@ def split4(string):
 判断是否为2的幂
 ```
 def is_power_of_2(n):
-    return not (n & n - 1)
+    return not n & n - 1
 ```    
 
 #### Base 128 Varint 编码
