@@ -141,16 +141,23 @@ out:
 	return err;
 }
 ```
-inet_listen() 检查了TCP state 并设置state 为 TCP_LISTEN, 然后将listen参数backlog 存入 sock->sk_max_ack_backlog,最后调用inet_csk_listen_start().
+inet_listen() 检查了TCP state, 调用inet_csk_listen_start().,  然后将listen参数backlog 存入 sock->sk_max_ack_backlog
 
 inet_csk_listen_start()
 ----
+connection socket, inet_csk
+
 `net\ipv4\inet_connection_sock.c`
 ```c
 int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
 {
 	struct inet_sock *inet = inet_sk(sk);
 	struct inet_connection_sock *icsk = inet_csk(sk);
+    
+    /* 
+	 * backlog nr_table_entries
+	 * 
+	 * /
 	int rc = reqsk_queue_alloc(&icsk->icsk_accept_queue, nr_table_entries);
 
 	if (rc != 0)
@@ -158,6 +165,16 @@ int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
 
 	sk->sk_max_ack_backlog = 0;
 	sk->sk_ack_backlog = 0;
+    
+    
+    /*
+     * static inline void inet_csk_delack_init(struct sock *sk)
+     * {
+	 *  memset(&inet_csk(sk)->icsk_ack, 0, sizeof(inet_csk(sk)->icsk_ack));
+     * }
+     * 初始化传输控制块中与延时发送ACK段有关的控制数据结构icsk_ack 
+     * /
+    
 	inet_csk_delack_init(sk);
 
 	/* There is race window here: we announce ourselves listening,
@@ -165,7 +182,17 @@ int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
 	 * It is OK, because this socket enters to hash table only
 	 * after validation is complete.
 	 */
+     
+	/* 修改TCP 状态 */     
 	sk->sk_state = TCP_LISTEN;
+    /* 
+	 * 调用的是inet_csk_get_port()，如果没有绑定端口，则进行绑定 
+	 * 端口操作；如果已经绑定了端口，则对绑定的端口进行校验。绑定 
+	 * 或校验端口成功后，根据端口号在传输控制块中设置网络字节序的 
+	 * 端口号成员，然后再清除缓存在传输控制块中的目的路由缓存，最后 
+	 * 调用hash接口inet_hash()将该传输控制块添加到
+	 * 监听散列表listening_hash 中，完成监听 
+	 */  
 	if (!sk->sk_prot->get_port(sk, inet->num)) {
 		inet->sport = htons(inet->num);
 
