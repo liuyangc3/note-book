@@ -141,4 +141,43 @@ out:
 	return err;
 }
 ```
+inet_listen() 检查了TCP state 并设置state 为 TCP_LISTEN, 然后将listen参数backlog 存入 sock->sk_max_ack_backlog,最后调用inet_csk_listen_start().
+
+inet_csk_listen_start()
+----
+`net\ipv4\inet_connection_sock.c`
+```c
+int inet_csk_listen_start(struct sock *sk, const int nr_table_entries)
+{
+	struct inet_sock *inet = inet_sk(sk);
+	struct inet_connection_sock *icsk = inet_csk(sk);
+	int rc = reqsk_queue_alloc(&icsk->icsk_accept_queue, nr_table_entries);
+
+	if (rc != 0)
+		return rc;
+
+	sk->sk_max_ack_backlog = 0;
+	sk->sk_ack_backlog = 0;
+	inet_csk_delack_init(sk);
+
+	/* There is race window here: we announce ourselves listening,
+	 * but this transition is still not validated by get_port().
+	 * It is OK, because this socket enters to hash table only
+	 * after validation is complete.
+	 */
+	sk->sk_state = TCP_LISTEN;
+	if (!sk->sk_prot->get_port(sk, inet->num)) {
+		inet->sport = htons(inet->num);
+
+		sk_dst_reset(sk);
+		sk->sk_prot->hash(sk);
+
+		return 0;
+	}
+
+	sk->sk_state = TCP_CLOSE;
+	__reqsk_queue_destroy(&icsk->icsk_accept_queue);
+	return -EADDRINUSE;
+}
+```
 
