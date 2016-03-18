@@ -40,7 +40,11 @@ SYSCALL_DEFINE2(listen, int, fd, int, backlog)
 	struct socket *sock;
 	int err, fput_needed;
 	int somaxconn;
-
+    
+    /* 通过文件描述符fd，找到对应的socket。 
+     * 以fd为索引从当前进程的文件描述符表files_struct中找到对应的file实例， 
+     * 然后从file实例的private_data成员中获取socket实例。 
+     */
 	sock = sockfd_lookup_light(fd, &err, &fput_needed);
 	if (sock) {
 		somaxconn = sock_net(sock->sk)->core.sysctl_somaxconn;
@@ -57,3 +61,4 @@ SYSCALL_DEFINE2(listen, int, fd, int, backlog)
 	return err;
 }
 ```
+
