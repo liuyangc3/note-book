@@ -9,3 +9,8 @@ A = np.array([
 ])
 
 print np.linalg.det(A)
+
+array = [[3, 6, 4], [2, 4, 8], [1, 6, 9]]
+print map(list, zip(*array))
+
+
