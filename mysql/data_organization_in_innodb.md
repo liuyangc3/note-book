@@ -1,4 +1,5 @@
 source : https://blogs.oracle.com/mysqlinnodb/entry/data_organization_in_innodb
+翻译: web
 
 数据在InnoDB的组织结构
 ==============
@@ -74,20 +75,103 @@ new file at the end of the chain.
 ---
 一个页可以有多种用途，页的类型表明了页被使用的目的，每个页的类型被保存在页的头文件里，头文件的定义在`storage/innobase/include/fil0fil.h`
 下面的表格描述了页类型的用途：
-| Page Type | Description |
-| ------------- | ------------- |
-| FIL_PAGE_INDEX | The page is a B-tree node |
+
+| Page Type         | Description|
+| ----------------- | ------------------------- |
+| FIL_PAGE_INDEX    | The page is a B-tree node |
 | FIL_PAGE_UNDO_LOG | The page stores undo logs |
-|FIL_PAGE_INODE|contains an array of fseg_inode_t objects.|
+| FIL_PAGE_INODE    |contains an array of fseg_inode_t objects.|
 |FIL_PAGE_IBUF_FREE_LIST|The page is in the free list of insert buffer or change buffer.|
 |FIL_PAGE_TYPE_ALLOCATED|Freshly allocated page.|
-|FIL_PAGE_IBUF_BITMAP|Insert buffer or change buffer bitmap|
-|FIL_PAGE_TYPE_SYS|System page|
+|FIL_PAGE_IBUF_BITMAP |Insert buffer or change buffer bitmap|
+| FIL_PAGE_TYPE_SYS   |System page|
 |FIL_PAGE_TYPE_TRX_SYS|Transaction system data|
 |FIL_PAGE_TYPE_FSP_HDR|File space header|
-|FIL_PAGE_TYPE_XDES||Extent Descriptor Page|
-|FIL_PAGE_TYPE_BLOBUncompressed BLOB page|
-|FIL_PAGE_TYPE_ZBLOB|First compressed BLOB page|
-|FIL_PAGE_TYPE_ZBLOB2|Subsequent compressed BLOB page|
+| FIL_PAGE_TYPE_XDES  |Extent Descriptor Page|
+| FIL_PAGE_TYPE_BLOB  | Uncompressed BLOB page|
+| FIL_PAGE_TYPE_ZBLOB |First compressed BLOB page|
+| FIL_PAGE_TYPE_ZBLOB2|Subsequent compressed BLOB page|
 
+表空间头部
+-----
+每个表空间也有一个头部文件`fsp_header_t`,这个数据结构保存在表空间的第一个页内
 
+* 表空间id space_id
+* 当前表空间的页数
+* 空闲段的列表
+* 不属于任何segment填满的扩展的列表
+* 不属于任何segment 半填充和未使用的扩展的列表
+* 保存segment header的页的列表，segment 节点槽位被保留(页类型FIL_PAGE_INODE)
+* 保存segment header的页的列表，segment 节点槽位未被保留(页类型FIL_PAGE_INODE)
+
+![](innodb-tablespace-header-1.jpg)
+
+通过表空间头部, 我们可以访问表空间内可用的segments的列表。表空间头部占用的空间，由宏`FSP_HEADER_SIZE`定义,
+它的大小是16*7 = 112 bytes。
+
+表空间保留页
+------
+前面提到，InnoDB至少有一个系统表空间，space_id 0，这是一个特殊表空间，伴随着MySQL Server的运行而存在，表空间的前几个页保留给内部使用。
+头文件的详细信息可以从`storage/innobase/include/fsp0types.h`查看，下面是简单的介绍
+
+page number | The page name | Description
+----------------- | ---------------------- | --------------
+0 | FSP_XDES_OFFSET | The extent descriptor page.
+1 | FSP_IBUF_BITMAP_OFFSET | The insert buffer bitmap page.
+2 | FSP_FIRST_INODE_PAGE_NO |The first inode page number.
+3|FSP_IBUF_HEADER_PAGE_NO|Insert buffer header page in system tablespace.
+4|FSP_IBUF_TREE_ROOT_PAGE_NO|Insert buffer B-tree root page in system tablespace.
+5|FSP_TRX_SYS_PAGE_NO|Transaction system header in system tablespace.
+6|FSP_FIRST_RSEG_PAGE_NO|First rollback segment page, in system tablespace.
+7|FSP_DICT_HDR_PAGE_NO|Data dictionary header page in system tablespace.
+
+可以看到, 头三个页存在于任意表空间.但后5个页只存在于系统表空间.所以其他表空间仅有3个保留页
+
+当参数 innodb_file_per_table 启用后,每个表有一个表空间和数据文件被创建.函数dict_build_table_def_step()的注释
+```
+/* We create a new single-table tablespace for the table. 
+We initially let it be 4 pages: 
+- page 0 is the fsp header and an extent descriptor page, 
+- page 1 is an ibuf bitmap page, 
+- page 2 is the first inode page, 
+- page 3 will contain the root of the clustered index of the 
+table we create here. */ 
+```
+
+文件段 file segments
+-----------------
+一个表空间有多个文件段，文件段或者段(segments)是一个逻辑实体，每个段有一个段头部(fseg_header_t)，
+它指向一个inode(fseg_inode_t)，节点描述了文件段，段头部保护如下信息：
+
+* 从属的inode的空间
+* inode的page_no
+* inode的page_offset
+* 段头部的长度(字节)
+
+fseg_inode_t 有如下信息
+
+* 属于哪个段的id
+* 填满的扩展列表
+* 当前段的空闲扩展列表
+* 当前段半满/空闲扩展列表
+* 当前段的独立页的数组，数组的大小是扩展的一般
+
+当段变大，它会从自己的表空间里取到空闲的页或者扩展。
+
+表
+---
+InnoDB中，表被创建时，内部会创建聚簇索引(B-tree)，B-tree包含2个段，一个代表非子叶节点，一个代表子叶节点。
+源码的文档：
+```
+In the root node of a B-tree there are two file segment headers. The leaf
+pages of a tree are allocated from one file segment, to make them consecutive
+on disk if possible. From the other file segment we allocate pages for 
+the non-leaf levels of the tree.
+```
+对于给定的表，B-tree的根页可以从data目录取得，InnoDB中，每个表存在于表空间内部，并且包含一个B-tree索引(聚簇索引)，
+索引包含了2个段，每个段有很多扩展，每个扩展包含连续1M的页。
+
+结论
+---
+文章讨论了InnoDB数据结构的细节，并且讨论逻辑实体如，表空间，页，页类型，扩展，段，表。
+并且讨论了它们之间的关系
