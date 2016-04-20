@@ -104,7 +104,7 @@ new file at the end of the chain.
 * 保存segment header的页的列表，segment 节点槽位被保留(页类型FIL_PAGE_INODE)
 * 保存segment header的页的列表，segment 节点槽位未被保留(页类型FIL_PAGE_INODE)
 
-![](innodb-tablespace-header-1.jpg)
+![](image/innodb-tablespace-header-1.jpg)
 
 通过表空间头部, 我们可以访问表空间内可用的segments的列表。表空间头部占用的空间，由宏`FSP_HEADER_SIZE`定义,
 它的大小是16*7 = 112 bytes。

@@ -71,7 +71,7 @@ Redo日志文件头部
 
 尾部是日志块内容的校验和。
 
-![](log-block.jpg)
+![](image/log-block.jpg)
 
 Log Sequence Number (LSN)
 -------------------------
@@ -140,7 +140,7 @@ struct log_t{
 
 全局log_sys 对象指向了redo日志缓存和磁盘上的redo日志文件的不同位置，下面的图表示了log_sys 对象指向的位置，清楚的展示了redo日志缓存和redo日志文件的位置映射。
 
-![](50-redolog.jpg)
+![](image/50-redolog.jpg)
 
 全局内存 Redo Log Buffer
 --------------------
