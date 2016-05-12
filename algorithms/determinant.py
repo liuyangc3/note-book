@@ -2,6 +2,7 @@
 
 import numpy as np
 
+# 行列式计算
 A = np.array([
     [3, 6, 4],
     [2, 4, 8],
