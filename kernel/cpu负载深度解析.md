@@ -28,15 +28,15 @@ static int loadavg_proc_show(struct seq_file *m, void *v)
 	return 0;
 }
 ```
-可以看到前3列的数据是通过2个宏 LOAD_INT 和 LOAD_FRAC 计算出来的
+可以看到前3列的数据是通过2个宏 `LOAD_INT` 和 `LOAD_FRAC` 计算出来的
 
-第四列 1/139 是 nr_running()/nr_threads，一个表示正在运行的task数量，另一个表示总task数量。这里统计的包括所有cpu
+第四列 1/139 是 `nr_running()/nr_threads`，一个表示正在运行的task数量，另一个表示总task数量。这里统计的包括所有cpu
 
-第五列 9244 是 task_active_pid_ns(current)->last_pid， 表示当前活动进程的最后一个task的pid
+第五列 9244 是 `task_active_pid_ns(current)->last_pid`， 表示当前活动进程的最后一个task的pid
 
-我们可以验证一下这个lastpid，写个脚本 t.sh
+我们可以验证一下这个last_pid，写个脚本 t.sh
 ```
-seleep 1000
+sleep 1000
 ```
 然后运行 sh t.sh &,用过ps得到该进程的pid是9272
 ```
@@ -97,7 +97,7 @@ Fixed Point Number Representation
 
 2^5 | 2^4 | 2^3 | 2^2 | 2^1 | 2^0 | Binary Point | 2 ^-1 
 --- | --- | --- | --- | --- | --- | ------------ | --- 
-... |  1  |  1  |  0  |  1  |  0  |       .      | 1 
+... |  1  |  1  |  0  |  1  |  0  |   __.__      | 1 
 
 = 1 * 2^4 + 1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 0* 2^0 + 1 * 2^-1
 
