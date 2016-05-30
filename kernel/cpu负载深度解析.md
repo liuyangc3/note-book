@@ -206,21 +206,7 @@ static atomic_long_t calc_load_tasks;
 static unsigned long calc_load_update;
 unsigned long avenrun[3];
 EXPORT_SYMBOL(avenrun);
-
-/**
- * get_avenrun - get the load average array
- * @loads:	pointer to dest load array
- * @offset:	offset to add
- * @shift:	shift count to shift the result left
- *
- * These values are estimates at best, so no need for locking.
- */
-void get_avenrun(unsigned long *loads, unsigned long offset, int shift)
-{
-	loads[0] = (avenrun[0] + offset) << shift;
-	loads[1] = (avenrun[1] + offset) << shift;
-	loads[2] = (avenrun[2] + offset) << shift;
-}
+...
 
 static unsigned long
 calc_load(unsigned long load, unsigned long exp, unsigned long active)
@@ -231,9 +217,9 @@ calc_load(unsigned long load, unsigned long exp, unsigned long active)
 }
 ```
 新的负载值是根据`上次的负载值` load 和`活动的task数量计` active 算出来的，
-如果不考虑fixed point 的位移运算 这个函数可以转化为下面的式子
+如果不考虑fixed point 的位移运算，calc_load函数可以转化为下面的式子
 ```
-load(t) = exp*load(t-1) + n(t)*(1 - exp)     (1)
+load(t) = exp*load(t-1) + n(t)*(1 - exp)              (1)
 ```
 * load(t) 表示在 t 时刻的负载值
 * load(t) 表示在 t 时刻上一次的负载值
@@ -254,11 +240,17 @@ load(2) = L*exp *exp
 ...
 load(t) = L* exp^t
 ```
-exp 是 宏 EXP_N ，例如 EXP_1  = 1/exp(5sec/1min), 即![ES](img/ES4.png)
+这里的 exp 是 宏 EXP_N 的值，注释里写到 EXP_1  = 1/exp(5sec/1min), 即
 
-同理 ![ES](img/ES5.png)
+![ES](img/ES4.png)
 
-![ES](img/ES6.png)， 我们将EXP_N 代入 上面的公式
+同理
+ 
+![ES](img/ES5.png)
+
+![ES](img/ES6.png)
+
+我们将EXP_N 代入 上面的公式得到
 
 ![ES](img/ES7.png)
 
