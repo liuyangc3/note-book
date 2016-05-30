@@ -1,3 +1,5 @@
+vim 配置
+
 ```
 set paste
 set tabstop=4
