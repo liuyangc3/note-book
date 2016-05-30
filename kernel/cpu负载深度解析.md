@@ -221,6 +221,8 @@ calc_load(unsigned long load, unsigned long exp, unsigned long active)
 ```
 load(t) = exp*load(t-1) + n(t)*(1 - exp)              (1)
 ```
+这里的 exp 是 宏 EXP_N 的值
+
 * load(t) 表示在 t 时刻的负载值
 * load(t) 表示在 t 时刻上一次的负载值
 * n(t) 表示在 t 时刻的 task 数量
@@ -240,7 +242,7 @@ load(2) = L*exp *exp
 ...
 load(t) = L* exp^t
 ```
-这里的 exp 是 宏 EXP_N 的值，注释里写到 EXP_1  = 1/exp(5sec/1min), 即
+注释里写到 EXP_1  = 1/exp(5sec/1min), 即
 
 ![ES](img/ES4.png)
 
@@ -250,7 +252,7 @@ load(t) = L* exp^t
 
 ![ES](img/ES6.png)
 
-我们将EXP_N 代入 上面的公式得到
+我们将EXP_N 替换上面的公式 exp 得到
 
 ![ES](img/ES7.png)
 
