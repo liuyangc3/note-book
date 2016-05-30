@@ -271,39 +271,51 @@ exp 是 宏 EXP_N ，例如 EXP_1  = 1/exp(5sec/1min), 即![ES](img/ES4.png)
 
 EXP_N 魔术数字的产生
 ------------
-我们再回顾一下EMA 指数平滑平均的公式
+我们再回顾一下EMA 指数平滑平均的公式，我们先换个形式
 
 ![ES](img/ES11.png)
 
-为了方便对比 假设负载计算的公式使用EMA
+为了方便对比 把负载计算的公式按照上面EMA的写法 写出来：
 
 ![ES](img/ES12.png)
 
 而实际的负载公式(1) 为
 
-不难发现，当设 α = 1 − exp(−5/60m )时，EMA 公式进行如下变化
+不难发现，当设 `α = 1 − exp(−5/60m)`时，对 EMA 公式进行运算可以得到
 
 ![ES](img/ES13.png)
 
-它 和内核负载公式是一样的
+最后一行和我们之前提到内核负载公式是一样的，如下：
 ```
 load(t) = exp*load(t-1) + n(t)*(1 - exp)     (1)
 ```
 
-根据上面的公式, t 时刻的负载为
-```
-load(t) = load(t-1) + EXP_R[N(t) - load(t-1)]
-```
-EXP_R 为平滑因子
+所以 `exp(−5/60m)` 和平滑因子的关系是 `1-α`, 当m=1时，他的值为![ES](img/ES14.png),
 
-如果指数衰减
+然后我们知道浮点数小数部分在内核是用 11 bit 的整数表示， 那么 11 bit 的值为 2048
+
+![ES](img/ES15.png)
+
+可以看到宏 `define EXP_1 1884` 是 1884.25 四舍五入得到的，所以宏 EXP_N 是表达式的`1-平滑因子`的近似值,N表示分钟数，load负载函数是指数衰减的。
+
+总结
+-----
+cpu 负载的含义 实际上是 run queue 长度的 EMA 表达式
+
+cpu 负载值长期来看应该每个cpu 的run queue 长度为1 最好，即每个cpu上只有一个task 在运行，这样cpu的使用率最高。所以负载值应该等于cpu的数量。
 
 
 
-
-https://luv.asn.au/overheads/NJG_LUV_2002/luvSlides.html
+参考资料
+----------
+http://www.perfdynamics.com/CMG/CMGslides4up.pdf
 
 https://www.teamquest.com/import/pdfs/whitepaper/ldavg1.pdf
+
 https://www.teamquest.com/import/pdfs/whitepaper/ldavg2.pdf
 
 http://www.makelinux.net/books/lkd2/ch04lev1sec2
+
+https://en.wikipedia.org/wiki/Fixed-point_arithmetic
+
+https://en.wikipedia.org/wiki/Exponential_decay
