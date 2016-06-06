@@ -33,12 +33,26 @@ f4a94630-92f1-11e4-8665-105172262513:1-411579804
 ```
 we can found these info from above:
 ```
+Slave_SQL_Running: No
 Query: "drop user test@'%'"
 Master_UUID: f4a94630-92f1-11e4-8665-105172262513
 Executed_Gtid_Set: f4a94630-92f1-11e4-8665-105172262513:1-411579804
 ```
-the next transactionid is `411579804`+ 1,and Query is our DDL `drop user test@'%'`,
-so we can jump to this transaction postion commit an empty transaction to skip this transaction.
+and we need to fix that
+
+but sicnce `SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1` is no longger supported when GTID mode on.
+we need anthoer way.
+
+the next transactionid is 411579804 + 1 = 411579805,
+so we can jump to next GITD postion commit an empty transaction to skip this transaction.
+
+the GITD is represented as a pair of coordinates, separated by a colon character (:), as shown here:
+```
+GTID = source_id:transaction_id
+```
+
+The `source_id` identifies the originating server. Normally, the server's server_uuid is used for this purpose.
+so the next GITD is `f4a94630-92f1-11e4-8665-105172262513:411579805`
 
 let's do it：
 ```
@@ -80,5 +94,5 @@ works fine
 
 also, you can to this by a MySQL utils [mysqlslavetrx](https://dev.mysql.com/doc/mysql-utilities/1.6/en/mysqlslavetrx.html)
 
-
+see also [gtids-concepts](https://dev.mysql.com/doc/refman/5.6/en/replication-gtids-concepts.html)
 
