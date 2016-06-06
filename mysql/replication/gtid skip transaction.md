@@ -92,7 +92,7 @@ mysql> show slave status\G;
 ```
 works fine
 
-also, you can to this by a MySQL utils [mysqlslavetrx](https://dev.mysql.com/doc/mysql-utilities/1.6/en/mysqlslavetrx.html)
+also, you can do this by using a MySQL utils [mysqlslavetrx](https://dev.mysql.com/doc/mysql-utilities/1.6/en/mysqlslavetrx.html)
 
 see also [gtids-concepts](https://dev.mysql.com/doc/refman/5.6/en/replication-gtids-concepts.html)
 
