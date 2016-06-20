@@ -11,6 +11,7 @@ eumu Season {
 
 技巧
 ----
+```c
 typedef enum {
     FlagNone = 0, // not use
     FlagA = 1 << 0,
@@ -26,3 +27,4 @@ int main() {
     if (f == 5) {printf("set A and C");}
     return 0;
 }
+```
