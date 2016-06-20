@@ -23,7 +23,7 @@ typedef enum {
 } Flags;
 
 int main() {
-    Flag f = FlagA | FlagC; // 0101 = 5
+    Flags f = FlagA | FlagC; // 0101 = 5
     if (f == 5) {printf("set A and C");}
     return 0;
 }
