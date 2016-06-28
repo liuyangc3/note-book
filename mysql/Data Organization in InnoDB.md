@@ -1,4 +1,5 @@
 source : https://blogs.oracle.com/mysqlinnodb/entry/data_organization_in_innodb
+
 翻译: web
 
 数据在InnoDB的组织结构
