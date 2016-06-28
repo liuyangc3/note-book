@@ -7,6 +7,8 @@
 
 [程序员编程艺术：面试和算法心得](http://taop.marchtea.com/index.html)
 
+声明
+----
 
 所有文档均为原创或翻译，遵循CC-BY-SA-4.0协议
 
