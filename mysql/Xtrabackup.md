@@ -1,17 +1,24 @@
 Percona XtraBackup 基于 InnoDB crash-recovery 机制.
- 
+
+背景
+---------
+表数据/索引 保存在 `datadir`/`table`.ibd, (innodb_file_per_table=1)
+
 Redo log 保存在 ib_logfile*
 
-Undo log存放在共享表空间里面（ibdata*）
+LSN 记录了 ib_logfile 中已写入的日志在该文件内的偏移量
 
-备份开始后 启动2个线程
-* 先启动 Redo log 复制线程，从最新的 checkpoint 点开始顺序拷贝 redo 日志到
+Undo log 存放在 ibdata1
+
+过程
+-------
+备份开始后 XtraBackup 进程内部启动2个线程:
+* 先启动 Redo log 复制线程，从最新的 checkpoint 开始顺序 copy Redo log 到 xtrabackup_logfile
 * 再启动 ibd 复制线程 copy 表 idb 文件
 
-ibd 线程完成后，执行 FLUSH TABLES WITH READ LOCK (FTWRL), 开始备份非 InnoDB 文件
-(frm、MYD、MYI、CSV、opt、par...)
+当 ibd 线程完成 copy 后，执行 FLUSH TABLES WITH READ LOCK (FTWRL), 开始备份非 InnoDB 文件(frm、MYD、MYI、CSV、opt、par...)
 
-同时在输出中能看到
+这时在输出中能看到其过程
 ```
 xtrabackup: Creating suspend file '/backup_path/xtrabackup_suspended_2' with pid '6
 9053'
@@ -28,7 +35,7 @@ innobackupex: Backing up files '/performance_schema/*.{frm,isl,MYD,MYI,MAD,MAI,M
 ,CSV,opt,par}' (53 files)
 ```
 
-非 InnoDB 文件备份完成后，进行所有日志(除binlog)的落盘` FLUSH NO_WRITE_TO_BINLOG ENGINE LOGS`
+非 InnoDB 文件备份完成后，进行所有日志(除binlog)的落盘 ` FLUSH NO_WRITE_TO_BINLOG ENGINE LOGS`
 ```
 160626 03:26:00  innobackupex: Finished backing up non-InnoDB tables and files
 
@@ -36,7 +43,7 @@ innobackupex: Backing up files '/performance_schema/*.{frm,isl,MYD,MYI,MAD,MAI,M
 160626 03:26:00  innobackupex: Waiting for log copying to finish
 ```
 
-然后结束 Redo log 线程, 解锁 READ LOCK, 并记录binlog的位置写入 xtrabackup_binlog_info
+然后结束 Redo log 线程, 解锁 READ LOCK, 并将 binlog 的位置写入 xtrabackup_binlog_info
 ```
 160626 03:26:01  innobackupex: All tables unlocked
 
@@ -78,7 +85,7 @@ Xtrabackup 启动时会从Redo log file 中获取最近一次的 checkpoint 对�
 如果是流式备份`--stream=tar` 或者远程备份`--remote-host`时，会将临时文件写入/tmp，可以指定参数`--tmpdir`,
 以免把 /tmp 目录占满影响备份以及系统其它正常服务.
 
-copy 日志文件的时候，每次读写512字节（不可配置）。
+copy 日志文件的时候，每次读写512字节, 因为 ib_logfile 由连续的日志块组成，每个块大小为 512 字节
 
 Redo log 线程结束时，将备份起始和结束时的 lsn 信息写入 xtrabackup_checkpoints 文件
 ```
