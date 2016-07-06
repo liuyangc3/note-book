@@ -1,6 +1,6 @@
 Percona XtraBackup 基于 InnoDB crash-recovery 机制.
  
-Redo log ib_logfile*
+Redo log 保存在 ib_logfile*
 
 Undo log存放在共享表空间里面（ibdata*）
 
