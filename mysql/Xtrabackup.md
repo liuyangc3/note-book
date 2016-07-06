@@ -1,4 +1,4 @@
-Percona XtraBackup 基于 InnoDB crash-recovery 机制.
+Percona XtraBackup 基于 InnoDB crash-recovery 机制. 本文大致描述其工作原理.
 
 背景
 ---------
