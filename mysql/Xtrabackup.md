@@ -4,11 +4,11 @@ Percona XtraBackup 基于 InnoDB crash-recovery 机制. 本文理大致描述其
 ---------
 表数据/索引 保存在 `datadir`/`table`.ibd, (innodb_file_per_table=1)
 
-Redo log 保存在 ib_logfile*
+Redo log 保存在 ib_logfile*.
 
-LSN 记录了 ib_logfile 中已写入的日志在该文件内的偏移量
+LSN 记录了 ib_logfile 中已写入的日志在该文件内的偏移量.
 
-Undo log 存放在 ibdata1
+Undo log 存放在 ibdata1.
 
 过程
 -------
