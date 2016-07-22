@@ -56,13 +56,14 @@ netlink 消息是一个字节流，它包含了一个或者多个消息头部(st
 
 
 
-code
+code example
 ----------
 netlink use inet_diag for TCP_LISTEN
 ```
 /*
     use inet_diag_rev v1, only support kernel 2.6.32 
-    author: web <liuyangc33@gmail.com>
+    some code from https://github.com/hulkamania/python-inet_diag/blob/master/python-inet_diag/inet_diag.c
+    http://git.sipsolutions.net/?p=pynl80211.git
 
 */
 
@@ -211,3 +212,27 @@ const (
 	INET_DIAG_NOCOOKIE = ^uint(0)  // ~0U in C
 )
 ```
+
+
+
+
+参考
+------
+kernel Manual: http://stuff.onse.fi/man?program=netlink&section=7
+libnl: http://www.infradead.org/~tgr/libnl/doc/core.html#core_msg_attr
+
+ss source code: https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/tree/misc/ss.c
+
+http://people.redhat.com/nhorman/papers/netlink.pdf
+
+http://blog.csdn.net/ljy1988123/article/details/51025298
+http://blog.csdn.net/duyiwuer2009/article/details/8958232
+
+http://kristrev.github.io/2013/07/26/passive-monitoring-of-sockets-on-linux/
+https://github.com/kristrev/inet-diag-example/blob/master/inet_monitor.c
+
+go-lang version:
+
+http://dtucker.co.uk/hack/taming-netlink.html
+
+http://containerops.org/2014/07/30/tenus-golang-powered-linux-networking/
