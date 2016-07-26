@@ -120,6 +120,7 @@ const (
 参考
 ------
 kernel Manual: http://stuff.onse.fi/man?program=netlink&section=7
+
 libnl: http://www.infradead.org/~tgr/libnl/doc/core.html#core_msg_attr
 
 ss source code: https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/tree/misc/ss.c
@@ -130,6 +131,7 @@ http://blog.csdn.net/ljy1988123/article/details/51025298
 
 
 http://kristrev.github.io/2013/07/26/passive-monitoring-of-sockets-on-linux/
+
 https://github.com/kristrev/inet-diag-example/blob/master/inet_monitor.c
 
 go-lang version:
