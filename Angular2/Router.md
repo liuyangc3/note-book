@@ -102,7 +102,7 @@ router 遍历路由的数组，检查 URL 是否以路由的 path 属性的值�
 ![](img/4.png)
 
 一个 router state 包含了激活的路由项。每个激活路由项关联了一个组件(component)。
-另外总会有一个激活的路由项关联到 root 组件(一般是 class AppComnent)。
+另外总会有一个激活的路由项关联到 root 组件(一般是 class AppComponent)。
 
 ## 运行 Guards
 ![](img/5.png)
@@ -309,7 +309,7 @@ URL 不变。接着 router 使用 URL 构造一个新的 router state.
 
 routerLink 指令接收数组并设置 href 属性为 '/inbox/33/messages/44(popup:message/44)'.
  
-如果用户点击了这个链接。router 会根据这个构造的 URL 重复整个过程：它会发现 conversation 和 message 组件以及就位。
+如果用户点击了这个链接。router 会根据这个构造的 URL 重复整个过程：它会发现 conversation 和 message 组件已经就位。
 所以无需再做任何事情。但它会创建一个 PopupMessageCmp 组件的实例，然后把它放入 popup outlet，一旦完成，
 router 会更新新的 URL 的 location 属性。
  
