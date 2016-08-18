@@ -309,7 +309,7 @@ URL 不变。接着 router 使用 URL 构造一个新的 router state.
 
 routerLink 指令接收数组并设置 href 属性为 '/inbox/33/messages/44(popup:message/44)'.
  
-如果用户点击了这个链接。router 会根据这个构造的 URL 重复整个过程：它会发现 conversation 和 message 组件以及就位。
+如果用户点击了这个链接。router 会根据这个构造的 URL 重复整个过程：它会发现 conversation 和 message 组件已经就位。
 所以无需再做任何事情。但它会创建一个 PopupMessageCmp 组件的实例，然后把它放入 popup outlet，一旦完成，
 router 会更新新的 URL 的 location 属性。
  
