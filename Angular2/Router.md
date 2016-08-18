@@ -36,7 +36,7 @@ Angular router 收到一个 URL, 然后:
 <p align="center">...</p>
 
 下面的例子中，我们假设已经按照如下配置了 router，并且我们要浏览 ‘/inbox/33/messages/44’。
-```json
+```
 [
   { path: '', pathMatch: 'full', redirectTo: '/inbox' },
   {
@@ -113,7 +113,7 @@ router 运行的函数，用来检查浏览指定的 URL 是否是允许的。
 
 ## 解析数据
 router 运行完 guards 后会解析数据。为了看看它如何工作，我们调整一下上面的配置。
-```json
+```
 [
   {
     path: ':folder',
