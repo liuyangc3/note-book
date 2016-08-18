@@ -102,7 +102,7 @@ router 遍历路由的数组，检查 URL 是否以路由的 path 属性的值�
 ![](img/4.png)
 
 一个 router state 包含了激活的路由项。每个激活路由项关联了一个组件(component)。
-另外总会有一个激活的路由项关联到 root 组件(一般是 class AppComnent)。
+另外总会有一个激活的路由项关联到 root 组件(一般是 class AppComponent)。
 
 ## 运行 Guards
 ![](img/5.png)
