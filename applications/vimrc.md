@@ -72,4 +72,7 @@ hi MatchParen      ctermfg=233  ctermbg=208 cterm=bold
 hi ModeMsg         ctermfg=229
 hi MoreMsg         ctermfg=229
 hi Operator        ctermfg=161
+
+" F5 save and run python code 
+au BufRead *.py map <buffer> <F5> :w<CR>:!/usr/bin/env python % <CR>
 ```
