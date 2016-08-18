@@ -1,6 +1,6 @@
-source: https://vsavkin.com/angular-2-router-d9e30599f9ea#.rv3j4s3kv
+source: https://vsavkin.com/angular-2-router-d9e30599f9ea
 
-trans: web
+translate: web
 
 # Angular 2 Router
 管理状态变化是构建 application 最难的部分。尤其是 web 开发时，当你需要确保状态被反映在 URL 中。
