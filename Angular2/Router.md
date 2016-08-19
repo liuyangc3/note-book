@@ -172,6 +172,9 @@ class ConversationsCmp {
   }
 }
 ```
+when navigate '/inbox/33'
+
+The router extracts the route parameter (id:33) from the URL and supplies it to the Component via the ActivatedRoute service.
 
 ## 激活需要的组件
 ![](img/6.png)
