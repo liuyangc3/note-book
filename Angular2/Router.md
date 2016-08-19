@@ -176,6 +176,29 @@ when navigate '/inbox/33'
 
 The router extracts the route parameter (id:33) from the URL and supplies it to the Component via the ActivatedRoute service.
 
+> ActivatedRoute is an object that contains information about route parameters, query parameters and URL fragments.
+property params in ActivatedRoute is an `Observable`.
+
+so we have to do is to subscribe to the parameters Observable changes.
+```typescript
+export class ContactsDetailComponent {
+  conversation: Conversation;
+  
+  constructor(
+    private route: ActivatedRoute,
+    private conversationService: ConversationService
+  ) { }
+
+  ngOnInit() {
+    this.route.params.map(params => params['id'])
+      .subscribe((id) => {
+        this.conversationService.getContact(id)
+          .subscribe(contact => this.contact = contact);
+      });
+  }
+}
+```
+
 ## 激活需要的组件
 ![](img/6.png)
 
