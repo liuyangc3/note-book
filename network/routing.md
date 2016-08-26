@@ -30,4 +30,7 @@ netstat - nr
 and it can be manually configured.
 
 ## destination route lookup
-The destination route lookup match route cache first, if not found then search the FIB detabase.
+The destination route lookup for the outgoing packet.it search route cache first, if no matching then search the FIB detabase.
+
+net/ipv4/route.c `ip_route_output()` for resove routing enrty, it call `ip_route_output_key()` use a routing key(struct rt_key) to find routing cache entry in `rt_hash_table` first,if not found call `ip_route_output_slow()` to search the FIB database based on the input routing key.if the match entry is found, then create a new route cache entry.
+
