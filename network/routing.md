@@ -22,6 +22,7 @@ ip route show table local
 ```
 this is local table on 172.16.1.24 eth0
 ```
+ip route show dev eth0 table local
 broadcast 172.16.0.0  proto kernel  scope link  src 172.16.1.24 
 local 172.16.1.24  proto kernel  scope host  src 172.16.1.24 
 broadcast 172.16.255.255  proto kernel  scope link  src 172.16.1.24 
