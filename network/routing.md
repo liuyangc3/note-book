@@ -20,6 +20,29 @@ The contents of the local table can be viewed by running the command:
 ``` shell
 ip route show table local
 ```
+this is local table on 172.16.1.24 eth0
+```
+broadcast 172.16.0.0  proto kernel  scope link  src 172.16.1.24 
+local 172.16.1.24  proto kernel  scope host  src 172.16.1.24 
+broadcast 172.16.255.255  proto kernel  scope link  src 172.16.1.24 
+```
+scopes defined in inlcude/linux/rtnetlink.h
+```c
+enum rt_scope_t {
+  RT_SCOPE_UNIVERSE=0,
+  /* User defined values */
+  RT_SCOPE_SITE=200,
+  RT_SCOPE_LINK=253,
+  RT_SCOPE_HOST=254,
+  RT_SCOPE_NOWHERE=255
+};
+```
+* RT_SCOPE_UNIVERSE indicates that the destination address is not directly connected and it is more than one hop away.
+* RT_SCOPE_SITE indicates an interior route within the site.
+* RT_SCOPE_HOST indicates that the destination address is for the local host.
+* RT_SCOPE_LINK indicates that the destination address is for the local network.
+* RT_SCOPE_NOWHERE indicates that there is no route to the destination address.
+
 ### main table
 The main table consists of all the normal routes, can be viewed by running these commands:
 ```shell
