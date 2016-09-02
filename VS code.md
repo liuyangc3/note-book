@@ -1,5 +1,5 @@
 # multiple tasks
-`ctrl` + `shift` + `P`,chose configure task to add a task.json,change it blow
+`ctrl` + `shift` + `P`,chose `Configure Task Runner`to add a task.json,change it blow
 ```
 {
     "version": "0.1.0",
