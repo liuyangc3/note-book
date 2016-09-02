@@ -30,7 +30,7 @@
     ]
 }
 ```
-shortcut for tasks
+shortcut for tasks, overwrite default `ctrl` + `shift` + `B`
 ```
 { "key": "ctrl+shift+b",          "command": "workbench.action.tasks.runTask" } 
 ```
