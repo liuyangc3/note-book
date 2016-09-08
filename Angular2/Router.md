@@ -313,6 +313,9 @@ class MessageCmp {
 ```
 指令添加到 a 标签后，会更新 href 属性的值，所以它是 SEO 友好的，并且右键在新标签中打开也是和我们希望的一样。
 
+`RouterLinkActive` 指令可以 
+
+
 ## 总结
 我们再看一次所有 Angular router 操作
 
