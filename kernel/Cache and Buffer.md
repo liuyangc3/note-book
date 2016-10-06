@@ -24,7 +24,7 @@ https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/De
 
 
 Unix 设计里有块设备缓存和文件缓存
-文件缓存在Linux 的实现就是 VFS层的 page cache
+文件缓存在Linux 的实现就是 VFS层的 page cache。
 
 论文 https://www.usenix.org/legacy/event/usenix2000/freenix/full_papers/silvers/silvers_html/
 
@@ -33,7 +33,7 @@ buffer_head 结构保证了需要把 page 写入 disk 时，I/O 请求直接发�
 page cache 就不说了，下面主要讲讲 buffer
 
 # buffer
-从 free 命令的代码里(项目地址 http://procps.sourceforge.net)可以得知命令的数值实际上是
+从 free 命令的代码里(项目地址 http://procps.sourceforge.net) 可以得知命令的数值实际上是
 从 /proc/meminfo 来的，而 meminfo 的数值是从系统调用 sysinfo 来的。
 
 具体详情 http://blog.csdn.net/lux_veritas/article/details/19231993
