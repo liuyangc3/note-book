@@ -30,8 +30,8 @@ Angular router 收到一个 URL, 然后:
 /inbox/33(popup:compose)
 /inbox/33;open=true/messages/44
 ```
-如你所见，router 使用圆括号序列化第二个分段(如, popup:compose)，分号语法指定了 outlet，
-';parameter=value'指定了路由的参数(例如，open=true)。
+如你所见，router 使用圆括号序列化次要部分(如, popup:compose)，冒号语法指定了 outlet，
+最后';parameter=value'指定了路由的参数(例如，open=true)。
 
 <p align="center">...</p>
 
@@ -238,7 +238,7 @@ router 会这么做。首先，实例化 ConversationCmp，把它放入 root 组
 
 ## 使用参数
 通常组件依赖于 parameters 或 解析的数据。conversation 组件很可能需要访问conversation object.
-通过注入 ActivatedRoute，我们可以取得参数和数据。
+通过注入 `ActivatedRoute` 我们可以取得参数和数据。
 
 ```typescript
 @Component({...})
