@@ -183,8 +183,13 @@ observerB: 1
 observerA: 2
 observerB: 2
 ```
-https://segmentfault.com/a/1190000005069851
+Subject 本质上也是个Observable.share() 看这个iussse 的讨论
+
+https://github.com/Reactive-Extensions/RxJS/issues/1215
+
+
 # Operators
+https://segmentfault.com/a/1190000005069851
 
 Observable 的数据流是不可变的，但是我们的某个观察者对数据有特殊要求怎么办？当然可以这么做
 ```
