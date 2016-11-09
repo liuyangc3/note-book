@@ -30,7 +30,7 @@ Angular View Encapsulation 特许允许使用 Shadow DOM 或者模拟它，有3�
 # ViewEncapsulation.None
 不用 Shadow DOM，样式会越过组件，直接写入文档的 head。
 ```typescript
-import {ViewEncapsulation} from '@angular/core';
+import {ViewEncapsulation } from '@angular/core';
 
 @Component({
   moduleId: module.id,

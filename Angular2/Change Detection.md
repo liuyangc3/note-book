@@ -51,7 +51,7 @@ class ApplicationRef {
 假设 component tree 中某处发生了一个事件，也许一个button被点击了，下来会发生什么。
 因为每个 component 有自己的 change detector，而 component 是树形，所以逻辑上也会有个
 change detector 树，如图，数据总是从上到下流动。
-![](img/cd-tree-7.svg)
+![](img/cd-tree-7.png)
 
 从上至下的原因是，change detection 总是由从上至下的单个 component 执行，每一次都是从 root component 开始。
 这种单向的数据流动比周期检测要好，因为仅仅影响使用的组件，我们可以知道数据来自于哪个我们使用的视图。
@@ -164,7 +164,7 @@ class CartBadgeCmp {
 然而 addItemStream 的引用永不会变，所以 change detection 在子树永不执行，即便设置了OnPush all，
 change detection 也不会执行。 现在是这样的
 
-![](img/cd-tree-10.svg)
+![](img/cd-tree-10.png)
 
 
 
@@ -195,11 +195,11 @@ class CartBadgeCmp {
 
 boom, 当observable 事件发生前，change detection 是这样的 
 
-![](img/cd-tree-12.svg)
+![](img/cd-tree-12.png)
 
 change detection 执行时，会从上至下
 
-![](img/cd-tree-13svg)
+![](img/cd-tree-13.png)
 
 一旦 change detection 结束， 它会为整个树 恢复 OnPush 的状态。
  
