@@ -75,3 +75,38 @@ single-request (since glibc 2.10)
 The Linux NIS(YP)/NYS/NIS+ HOWTO http://www.linux-nis.org/nis-howto/HOWTO/introduction.html
 
 http://www.gnu.org/software/libc/manual/html_node/Name-Service-Switch.html
+
+
+# DNS in java
+http://blog.arganzheng.me/posts/java-dns-lookup-internal.html
+
+JAVA 实现了 InetAddress Caching，如果有 cache 则从 cache 里取得数据，否则执行 getAddressesFromNameService
+
+分为 IPv4 实现 http://hg.openjdk.java.net/jdk7u/jdk7u60/jdk/file/33c1eee28403/src/solaris/native/java/net/Inet4AddressImpl.c#l66
+和 IPv6 实现 http://hg.openjdk.java.net/jdk7u/jdk7u60/jdk/file/33c1eee28403/src/solaris/native/java/net/Inet6AddressImpl.c#l66
+
+
+举个IPv6的 例子
+
+函数 lookupAllHostAddr 
+```
+Java_java_net_Inet6AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,jstring host) {
+...
+    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
+...
+    error = (*getaddrinfo_ptr)(hostname, NULL, &hints, &res);
+```
+getaddrinfo_ptr 是指针函数，用来从 hostname 获取 DNS
+
+http://hg.openjdk.java.net/jdk7u/jdk7u60/jdk/file/33c1eee28403/src/solaris/native/java/net/net_util_md.c#l452
+```
+getaddrinfo_ptr = (getaddrinfo_f)
+       JVM_FindLibraryEntry(RTLD_DEFAULT, "getaddrinfo");
+```
+指针函数指向了 getaddrinfo。JVM_FindLibraryEntry 是通过Linux dlsym() 来获取动态库的指针，
+而 dlsym(RTLD_DEFAULT, name)中的  RTLD_DEFAULT 是指 “default library search order” 默认搜索顺序。
+
+
+IPv4中使用 gethostbyname()函数完成主机名到地址解析，IPv6 则使用 getaddrinfo() 
+
+
