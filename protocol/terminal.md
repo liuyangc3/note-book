@@ -51,18 +51,23 @@ struct termios {
 
 # A Brief Introduction to Termios
 如果你是一个 UNIX 终端用户，会很多你认为理所当然，但却没有认真的思考过的行为。
-比如按下 `^C` 和 `^Z` 可以 kill 掉程序 和 stop 前台程序 - 
- 当你 ssh 到 一台远程主机
+比如按下 `^C` 和 `^Z` (不是在vim or emasc的编辑环境里) 可以杀死和暂停前台程序.
+也许你知道 shell 使用 libreadline 来实现行编辑，但是当你在界面按下 cat， 字母出现在屏幕时，是谁在提供这些功能?
  
+这些都是 Unix terminal 层来实现的，termios 接口在通信的设备间同步数据。
  
 ## The terminal device
-Unix 中终端抽象成为 'terminal' 设备，简写为 `tty`。在今天你是不会和一个物理终端交互的，一般都是和"伪终端"(pseudo-terminal)交互，
-简称'pty'，伪终端是一个纯虚拟结构，一个伪终端简单来说是一对端点(实现为 /dev 下的字符设备)，它们提供了一个双向的通信通道。
-无论从哪一端写入，都可以从另一端读出，反之亦然。这对儿端点通常叫做 "master" 端和 "slave" 端，
-与管道和 socket 不同，它们并不是直接传递数据，终端设备特别之处是在 master 和 slave 之间，有一个中间层可以用来过滤，转发，回应两段的数据流。
+Unix 中与终端的交互都抽象成为与 'terminal' 设备交互，简写为 `tty`。在今天，你是不会和一个物理终端交互的，一般都是和"伪终端"(pseudo-terminal)交互。
 
-通常 master 是连接你的终端模拟器(如 xterm)的一端，而 slave 是连接程序(例如 shell)的一端。
-"输入"会从用户到 master 再到 slave，"输出"则从 程序 到 slave 再到 master，基本的过程如下所示:
+伪终端是一个纯虚拟结构，简称'pty'，单来说它是一对 endpoints (具体实现为 /dev 下的字符设备)，这对儿 endpoints 提供了一个双向的通信通道。
+无论从哪一个 endpoint 写入，数据都可以从另一个 endpoint 读出，反之亦然。
+
+这对儿 endpoints 通常叫做 "master" 端和 "slave" 端，与 pipe 和 socket 不同，它们并不是直接传递数据。
+所以终端设备特别之处是，在 master 和 slave 之间，有一个中间层可以用来过滤，转发，回应两段的数据流。
+
+通常 master 是连接你的终端模拟器(如 xshell, secureCRT)的一端，而 slave 是目标处理程序(例如 shell)。
+
+"输入"数据会从用户终端模拟器 到 master 再到 slave，"输出"则从 程序 到 slave 再到 master，基本的过程如下所示:
 
 ![](img/termios.png)
 
