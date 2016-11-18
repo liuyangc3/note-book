@@ -1,14 +1,53 @@
-https://blog.nelhage.com/2009/12/a-brief-introduction-to-termios/
+# Early Unices: Seventh Edition Unix
+由  Unix 32V 和 Seventh Edition Unix, 以及 BSD version 4 提供的 terminal 接口，被认为是老的 terminal 驱动，
+有三种 imput 模式:
+* line mode (也叫 "cooked" mode)
+行模式，terminal 驱动每次返回一行的数据
 
-https://blog.nelhage.com/2009/12/a-brief-introduction-to-termios-termios3-and-stty/
+* cbreak mode
+2种字符模式之一，每次返回一个字符，允许控制字符
 
-https://blog.nelhage.com/2010/01/a-brief-introduction-to-termios-signaling-and-job-control/
+* raw mode
+2种字符模式之二，每次返回一个字符，完全禁止控制字符。
+
+这类接口里都是通过 ioctl 修改 input 模式和控制字符。
+
+# System III and System V
+上面提到过，在 BSD Unix 里，input 模式是通过 ioctl() 来读取和设置的，并且有特定函数用来读取和设置特殊字符。
+而 System III Unix 则设计了全新的接口，不同于 BSD，它将 flag 和特殊字符的控制捆绑了到了一个叫 termio 的 stuct，这样可以通过一次操作来设置它们。
+
+System III 的接口不支持 job control，取消了 "cooked", "cbreak", and "raw" 模式，并且把特殊字符的处理从 input 模式里独立出来，
+只设置两种 input 模式: canonical 和 non-canonical 模式，System V 也沿用了这个设计。
+
+
+Linux 实现
+```c
+struct termio {
+    tcflag_t c_iflag;      /* input modes */
+    tcflag_t c_oflag;      /* output modes */
+    tcflag_t c_cflag;      /* control modes */
+    tcflag_t c_lflag;      /* local modes */
+    cc_t     c_cc[NCCS];   /* special characters */
+}
+```
+
+* canonical
+通过设置 c_lflag 为 ICANON 进入此模式，the terminal 驱动返回一行的数据 ，特殊字符也发送到设备，如(^C, ^Z, etc.).
+这是行模式，每次处理一行，允许行编辑，当行分隔符出现(NL, EOL, EOL2; 或在行首出现 EOF)时，返回buffer内的行数据。
+
+* non-canonical
+字符模式，不允许行编辑，特殊字符不被处理，vim使用这个模式。返回字符的时机有由 MIN 和 TIME 值控制。
+在这个模式下，如果文件描述符设置了 O_NONBLOCK , 无论 MIN 或 TIME 的值是什么， read() 可能会立刻返回。
+因此。如果没有数据时, POSIX 允许 noncanonical 模式下的 read() 返回0或-1，并将errno设置为EAGAIN。
+
+# POSIX
+虽然都是 UINX，但不同的产品提供了不同的 ioctl() 操作,有不同的 (symbolic) 名称, 不同的 flags。
+为了解决 ioctl 使用的混乱，POSIX 使用了 System V Unix 的 termio 数据结构作为模板，并引入了 job control，即暂停和延迟暂停的特殊字符。
 
 # A Brief Introduction to Termios
 如果你是一个 UNIX 终端用户，会很多你认为理所当然，但却没有认真的思考过的行为。
 比如按下 `^C` 和 `^Z` 可以 kill 掉程序 和 stop 前台程序 - 
  当你 ssh 到 一台远程主机
- 
  
  
 ## The terminal device
@@ -100,3 +139,12 @@ c_cc 以索引来控制，索引所对应的值是字符，
 VEOF – End of file. Sends the current line to the program without waiting for 
 
 
+# 参考
+
+https://en.wikipedia.org/wiki/POSIX_terminal_interface
+
+https://blog.nelhage.com/2009/12/a-brief-introduction-to-termios/
+
+https://blog.nelhage.com/2009/12/a-brief-introduction-to-termios-termios3-and-stty/
+
+https://blog.nelhage.com/2010/01/a-brief-introduction-to-termios-signaling-and-job-control/
