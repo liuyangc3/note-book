@@ -31,11 +31,13 @@ struct termio {
 }
 ```
 
-* canonical
+* canonical mode
+
 通过设置 c_lflag 为 ICANON 进入此模式，the terminal 驱动返回一行的数据 ，特殊字符也发送到设备，如(^C, ^Z, etc.).
 这是行模式，每次处理一行，允许行编辑，当行分隔符出现(NL, EOL, EOL2; 或在行首出现 EOF)时，返回buffer内的行数据。
 
-* non-canonical
+* non-canonical mode
+
 字符模式，不允许行编辑，特殊字符不被处理，vim使用这个模式。返回字符的时机有由 MIN 和 TIME 值控制。
 在这个模式下，如果文件描述符设置了 O_NONBLOCK , 无论 MIN 或 TIME 的值是什么， read() 可能会立刻返回。
 因此。如果没有数据时, POSIX 允许 noncanonical 模式下的 read() 返回0或-1，并将errno设置为EAGAIN。
