@@ -1,4 +1,5 @@
-# Early Unices: Seventh Edition Unix
+# 历史回顾
+## Early Unices: Seventh Edition Unix 早期 Unix
 由  Unix 32V 和 Seventh Edition Unix, 以及 BSD version 4 提供的 terminal 接口，被认为是老的 terminal 驱动，
 有三种 imput 模式:
 * line mode (也叫 "cooked" mode)
@@ -12,9 +13,9 @@
 
 这类接口里都是通过 ioctl 修改 input 模式和控制字符。
 
-# System III and System V
+## System III and System V
 上面提到过，在 BSD Unix 里，input 模式是通过 ioctl() 来读取和设置的，并且有特定函数用来读取和设置特殊字符。
-而 System III Unix 则设计了全新的接口，不同于 BSD，它将 flag 和特殊字符的控制捆绑了到了一个叫 termio 的 stuct，这样可以通过一次操作来设置它们。
+而 System III Unix 则设计了全新的接口，不同于 BSD，它将 flag 和特殊字符的控制捆绑了到了一个叫 termios 的 stuct，这样可以通过一次操作来设置它们。
 
 System III 的接口不支持 job control，取消了 "cooked", "cbreak", and "raw" 模式，并且把特殊字符的处理从 input 模式里独立出来，
 只设置两种 input 模式: canonical 和 non-canonical 模式，System V 也沿用了这个设计。
@@ -22,7 +23,7 @@ System III 的接口不支持 job control，取消了 "cooked", "cbreak", and "r
 
 Linux 实现
 ```c
-struct termio {
+struct termios {
     tcflag_t c_iflag;      /* input modes */
     tcflag_t c_oflag;      /* output modes */
     tcflag_t c_cflag;      /* control modes */
@@ -42,9 +43,11 @@ struct termio {
 在这个模式下，如果文件描述符设置了 O_NONBLOCK , 无论 MIN 或 TIME 的值是什么， read() 可能会立刻返回。
 因此。如果没有数据时, POSIX 允许 noncanonical 模式下的 read() 返回0或-1，并将errno设置为EAGAIN。
 
-# POSIX
+## POSIX 标准
 虽然都是 UINX，但不同的产品提供了不同的 ioctl() 操作,有不同的 (symbolic) 名称, 不同的 flags。
 为了解决 ioctl 使用的混乱，POSIX 使用了 System V Unix 的 termio 数据结构作为模板，并引入了 job control，即暂停和延迟暂停的特殊字符。
+
+下面介绍 Termios
 
 # A Brief Introduction to Termios
 如果你是一个 UNIX 终端用户，会很多你认为理所当然，但却没有认真的思考过的行为。
