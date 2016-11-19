@@ -50,9 +50,9 @@ struct termios {
 下面介绍 Termios
 
 # A Brief Introduction to Termios
-如果你是一个 UNIX 终端用户，会很多你认为理所当然，但却没有认真的思考过的行为。
+如果你是一个 UNIX 终端用户，很多终端行为你认为理所当然，但你肯定没有认真的思考过。
 比如按下 `^C` 和 `^Z` (不是在vim or emasc的编辑环境里) 可以杀死和暂停前台程序.
-也许你知道 shell 使用 libreadline 来实现行编辑，但是当你在界面按下 cat， 字母出现在屏幕时，是谁在提供这些功能?
+也许你知道 shell 使用 libreadline 来实现行编辑，但是当你在终端界面按下 cat， 字母出现在屏幕时，是谁在提供这些功能?
  
 这些都是 Unix terminal 层来实现的，termios 接口在通信的设备间同步数据。
  
@@ -76,7 +76,7 @@ Unix 中与终端的交互都抽象成为与 'terminal' 设备交互，简写为
 ## What happens in the middle?
 中间的方块我标记为 "termios"，就是第一段里提到中间层，主要行为如下:
 * Line buffering – 当字符从左侧进入,它会保存直到收到换行,同时把整行一次性发送出去。
-* Echo – 当字符从左侧进入, 除了Line buffering,它会把字符返回到左侧，这就是为什么你会看到你打的字。
+* Echo – 当字符从左侧进入, 除了保存到 Line buffering,它会把字符返回到左侧，这就是为什么你会看到你打的字。
 * Line editing – 当 ERASE 字符 (^?, ASCII 默认为 0x7f)从左侧进入，假设输入缓冲有内容，最后一个字符会被删除，
  并且序列 "\b \b" 发送到左侧。"\b" (ASCII 0x08) 是告诉你的终端把游标往左移动一格(删除键)，具体是先往左移动一格，
  将光标所在字符替换为空格，再把光标移动回去。
@@ -143,10 +143,61 @@ c_cc 成员里有许多和终端交互的控制字符。例如 ^C and ^Z and `de
 c_cc 以索引来控制，索引所对应的值是字符，
 * VINTR – 生成一个 SIGINT (^C by default).
 * VSUSP – 生成一个 SIGTSTP (stop the program) (^Z by default).
-* VERASE – 删除之前字符. 应该是 ^H and ^? (ASCII 0x7f) by default – 如果你不按 "backspace" 而是由 ^H 来代替，
- 你的终端和你的 `struct termios` 不同意 VERASE的值.
+* VERASE – 删除之前字符. 默认应该是 ^H and ^? 之一(ASCII 0x7f) – 如果你从来没按过 "backspace" 就收到了 ^H ，
+你的终端和你的 `struct termios` 将不同意 VERASE的值.
+* VEOF – 文件的结尾. 向程序发送当前行，而不用等待 end-of-line，或者发送当前行的第一个字符，这样slave的下次read
+ 会返回 end-of-file. (^D by default)
+* VSTOP and VSTART – ^S and ^Q，停止和开始 output 输出
 
-VEOF – End of file. Sends the current line to the program without waiting for 
+将任意成员设置为 NULL (0) 将禁用这个特殊控制字符，很多成员仅仅在certain modes(VINTR and VSUS)激活时才有用，
+具体是，c_lflag 的 ISIG 开启，除非设置了 IXON，否则 VSTOP and VSTART 将一直忽略。
+
+
+### Vim
+http://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-The-Alternate-Screen-Buffer
+
+
+Xterm 维护了两个 screen buffers，一个是普通screen ，允许你可以滚动查看之前的保存的屏幕输出，
+，而另一个就是 alternate screen buffer，它的大小和屏幕一致，所以它没有额外的保存空间，
+不能展示历史记录，当 alternate screen buffer 激活后，你就不能滚动屏幕了，Xterm  提供了
+control sequences 控制序列来切换2种 buffer。
+
+大多数 full-screen 程序，使用 terminfo 或 termcap 来开启/停止 full-screen 模式，
+ smcup 和 rmcup 用于 terminfo，同样的 ti 和 te 用于 termcap
+
+当打开 vim 进程后，会出进入到 vim 编辑屏幕，这个功能归功于 终端的 alternate screen 特性。
+
+http://invisible-island.net/xterm/xterm.faq.html#xterm_tite
+
+Solaris 2.x 时代， terminfo 并没有使用 alternate screen,Solaris 10 开始， ncurses 5.6
+为使用alternate screen 的 xterm 提供了一个好用的 terminal description 。
+
+由于 alternate screen 特性在 terminal description里了，这个特性就可以配置了，例如
+
+```
+echo " smcup=\E7\E[?47h, rmcup=\E[2J\E[?47l\E8," >> /tmp/xterm.src
+```
+\E 表示 escape sequence，表示开始 转义序列，16进制是 '\x1b'，后面再加上具体的指令，如：
+
+for smcup
+* '\x1b7'  保存 cursor 的位置
+* '\x1b[?47h' 切换到 alternate screen
+
+for rmcup
+'\x1b[2J' clears  screen 清屏(假设已经在 alternate screen)
+'\x1b[?47l' 切换回 normal screen
+'\x1b8' 恢复 cursor 的位置.
+
+而 [XFree86 3.9s](http://invisible-island.net/xterm/xterm.log.html#xterm_54) 后，
+xterm 实现了另一组不同控制指令(1047, 1048 and 1049)，新指令实现2组控制序列：
+* ti 序列：保存 cursor, 切换到 alternate screen,
+* te 序列：clear screen，切换到 normal screen, 恢复 cursor
+
+xterm-256color
+* '\x1b[?1049h' 切换到 alternate screen
+* '\x1b[?1049l' 切换到 normal screen
+
+
 
 
 # 参考
