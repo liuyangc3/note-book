@@ -109,4 +109,8 @@ getaddrinfo_ptr = (getaddrinfo_f)
 
 IPv4中使用 gethostbyname()函数完成主机名到地址解析，IPv6 则使用 getaddrinfo() 
 
-
+## DNS cache
+JAVA DNS 有 cache,配置方式有：
+* $JAVA_HOME/jre/lib/security/java.security 下的 networkaddress.cache.ttl=value
+* JVM 参数 -Dsun.net.inetaddr.ttl=value
+* 代码设置 java.security.Security.setProperty("networkaddress.cache.ttl" , "value");
