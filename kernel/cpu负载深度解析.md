@@ -5,10 +5,13 @@ cat /proc/loadavg
 0.00 0.00 0.00 1/139 9244
 ```
 
-man 手册里提到，前3列分别是1分钟，5分钟和15分钟时，统计的系统负载，后面2列是什么意思，我们来看下代码：
+man 手册里提到，前3列分别是1分钟，5分钟和15分钟时，统计的系统负载。
 
+这3个负载值的含义先不讲，先讲讲最后 2 列的含义，讲解之前我们来看下 /proc/loadavg 的代码：
+
+fs/proc/loadavg.c
 ```c
-// fs/proc/loadavg.c 2.6.32
+// kernel 2.6.32
 
 #define LOAD_INT(x) ((x) >> FSHIFT)
 #define LOAD_FRAC(x) LOAD_INT(((x) & (FIXED_1-1)) * 100)
@@ -28,26 +31,32 @@ static int loadavg_proc_show(struct seq_file *m, void *v)
 	return 0;
 }
 ```
-可以看到前3列的数据是通过2个宏 `LOAD_INT` 和 `LOAD_FRAC` 从`avnrun`数组计算出来的
+可以看到后两列 `1/139 9244` 分别是 `nr_running()/nr_threads` 和 `task_active_pid_ns(current)->last_pid` 
+
+nr_running 是正在运行的 task 数量，nr_threads 是总 task 数量。这里统计是所有cpu
+
+最后一列表示当前活动进程的最后一个 task 的 pid。
+
+# load avg
+loadavg 即 cpu 负载，它们具体代表什么意思呢?
+
+首先可以看到3个负载值是通过2个宏 `LOAD_INT` 和 `LOAD_FRAC` 从`avnrun`数组计算出来的
 ```
 LOAD_INT(avnrun[0]), LOAD_FRAC(avnrun[0]),
 LOAD_INT(avnrun[1]), LOAD_FRAC(avnrun[1]),
 LOAD_INT(avnrun[2]), LOAD_FRAC(avnrun[2])
 ```
+为了理解计算公式的含义，就需知道宏 `LOAD_INT` 和 `LOAD_FRAC` 以及数组 avnrun 的含义
 
-第四列是 `nr_running()/nr_threads`，前面的是正在运行的 task 数量，后面的是总 task 数量。这里统计的包括所有cpu
-
-最后一列是 `task_active_pid_ns(current)->last_pid`， 表示当前活动进程的最后一个 task 的 pid
-
-下面来看看 `LOAD_INT` 和 `LOAD_FRAC` ：
+## 宏 LOAD_INT LOAD_FRAC
+定义如下
 ```
 #define LOAD_INT(x) ((x) >> FSHIFT)
 #define LOAD_FRAC(x) LOAD_INT(((x) & (FIXED_1-1)) * 100)
 ```
-
-这里用到了2个宏 `FIXED_1` 和 `FSHITF`，这些个宏的定义在
+这里又涉及了另外2个宏 `FIXED_1` 和 `FSHITF`，这些宏的定义在 linux/sched.h
 ```c
-// linux/sched.h 2.6.32
+// kernel 2.6.32
 
 /*
  * These are the constant used to fake the fixed-point load-average
@@ -74,11 +83,13 @@ extern void get_avenrun(unsigned long *loads, unsigned long offset, int shift);
 	load += n*(FIXED_1-exp); \
 	load >>= FSHIFT;
 ```
-首先注释里就说明了，设置了一些常量，进行 fixed point 运算来表示负载的统计值。 
 
-那么什么是 fixed point ？
+这里涉及了很多新的宏，如 FIXED_1，EXP_1 ，EXP_5， EXP_15 等。
+并且注释里说是负载的统计都是通过模拟 fixed point 进行的。 
 
-Fixed Point Number Representation
+那么问题来了，什么是 fixed point ？
+
+## Fixed Point Number Representation
 ------
 其核心思想是用2进制来表示小数，例如一个小数26.5
 
@@ -89,73 +100,113 @@ Fixed Point Number Representation
 我们计算上面的二进制得到
 ```
 = 1 * 2^4 + 1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 0* 2^0 + 1 * 2^-1
-
 = 16 + 8 + 2 + 0.5
-
 = 26.5
 ```
 可以看到定义一个 fixed point 类型只需要2个参数
-* 数据长度，用 w 表示
-* 小数点的偏移量，用 b 表示
+* 数据 bit 长度，用 w 表示
+* 小数部分的 bit 长度，用 b 表示
 
 我们用`fixed<w,b>`来表示一个fixed point 类型，例如` fixed<8,3>`表示8 bit的数据，和小数点偏移量3.
 
 假设数据值为 00010.110，通过计算得到其十进制的值为2.75
 ```
-= 1 * 2^1 + 1 * 2^-1 + 1 * 2^-2
-
+= (0 + 1*2^1 + 0*2^0) + (1*2^-1 + 1*2^-2 + 0*2^-3)
 = 2 + 0.5 + 0.25
-
 = 2.75
 ```
-或者000.10110表示0.6875
+或者用 `fixed<8,5>` 即 000.10110 表示 0.6875
 ```
-= 1 * 2^-1 + 1 * 2^-3 + 1 * 2^-4
-
+= 0 + (1*2^-1 + 0*2^-2 + 1*2^-3 + 1*2^-4 + 0*2^-5)
 = 0.5 + 0.125 + 0.0625
-
 = 0.6875
 ```
 
-因为Linux内核是不允许浮点运算的，所以通过fixed point ，可以高效地进行浮点运算。
-而负载这里具体是使用`fixed<21,11>`的结构，即用 10 bit 来表示整数部分，11 bit 来表示分数部分。  
+因为Linux内核是不允许浮点运算的，所以通过 fixed point ，可以高效地进行浮点运算。
+具体是使用长度为 21 位的 `fixed<21,11>`， 即前 10 bit 表示整数部分，后 11 bit 表示分数部分。  
 
-为什么是10 11这样划分？如果2个小数做乘法，整数的部分可以通过加法来代替，而小数部分相乘会变成 22 bit，这在注释中也有提到
+了解了 fixed point 后， 就可以讲解 LOAD_INT 和 LOAD_FRAC 了
+
+根据定义
 ```
-- 11 bit fractions expand to 22 bits by the multiplies ...
+#define LOAD_INT(x) ((x) >> FSHIFT)
+#define LOAD_FRAC(x) LOAD_INT(((x) & (FIXED_1-1)) * 100)
 ```
-而 10 bit + 22 bit = 32 bit，这样就解释了为什么这么划分。
+LOAD_INT(x) 很简单，即 x 右移动11位，它有什么用呢
 
-接着看`FIXED_1`,值 1 << 11 ,它是吧1左移11位，相当于把小数的部分全部置为0，所以在`fixed<21,11>`的结构下，FIXED_1表示的小数应该是`1.0`。
 
-这里我们假设 x 为 1100.1，那么它的 21 bit 完整格式是
+这里我们不妨设 x = 25856，那么它的`fixed<21,11>`格式是
 ```
-0000001100.10000000000
+0000001100.10100000000
 ```
-用整数表示就是25600，其中整数部分`1100`的值是12，小数部分是1024,代表0.5
+其中整数部分前10位的值是 1100，代表 12，后11位小数部分的值是 1280,代表 0.625
+所以 25856 对应的 fixed point 值就是 12.625。
 
-LOAD_INT(x) 表示 x右移动11位,刚好取出整数部分，25600 >> 11 刚好得到12。
+那么 LOAD_INT(x) 就是 25856 >> 11 刚好是12。所以 LOAD_INT 其实就是得到 fixed point 中的整数部分的值。
 
-而LOAD_FRAC(x) 比较复杂，公式为 LOAD_INT(((x) & (FIXED_1-1)) * 100)，我们慢慢看：
+那么 LOAD_FRAC(x) 也就不难理解了，就是得到 fixed point 中的小数部分的值，但是它的计算比较复杂，我们慢慢看：
 
-x 和 FIXED_1 - 1 做与运算，刚好取出最后11位
- 
-再对 x 和 FIXED_1 - 1 做与运算得到1024
+首先计算公式里用到了 FIXED_1 这个宏，它表示 (1<<FSHIFT)，即 1 << 11 ,1左移11位, 就是2048，如果用`fixed<21,11>`来表示 2048 它应该是
 ```
-        11111111111      (2047)
-&  1100.10000000000      (x)
+0000000001.00000000000
+```
+所以 FIXED_1 就是表示fixed-point 里面的 `1.0`。
+
+那么 FIXED_1 - 1 就是 2047，用`fixed<21,11>`来表示就是
+```
+0000000000.11111111111
+```
+它表示`fixed<21,11>`小数部分的最大值，即 0.99951171875
+
+x & (FIXED_1-1) 就是 x 和 FIXED_1-1 做与运算 
+
+那么我们用 25600 和 FIXED_1-1 做与运算看看结果是什么
+```
+        11111111111      (FIXED_1-1 = 2047)
+&  1100.10100000000      (25600)
 -----------------------
-        10000000000      (1024)
+        10100000000      (1280)
 ```
-然后乘以100，再右移11位，得到50
+所以 x & (FIXED_1-1) 其实就是得到 fixed point 小数部分的对应的整数值 1280
+
+那么 LOAD_INT((x & (FIXED_1-1)) * 100) 就是 
+
+LOAD_INT(1280 * 100)
+
+很有意思， 我们来看看它们对应的 fixed point 值
 ```
-1024 * 100 = 102400
-102400 >> 11 = 50
+int              | fixed point
+----------------------------- 
+1280             |  0.1010000000
+1280 * 100       | 10.1000000000
 ```
-然后我们把整数和小数部分组合起来,得到了x的值 `12`.`50`
+然后乘以 100， 刚好把小数部分的前2位 变为整数部分， 那么 LOAD_INT(1280 * 100)
+```
+LOAD_INT(1280 * 100) = 128000 >> 11 = 62
+```
+最后整数部分和小数部分 粘贴到一起得到 12.62，可以看到 12.625 的计算最结果里，只有小数部分的前两位 62。
+
+所以其实LOAD_FRAC 的计算过程就是
+```
+先得到 12.625 得小数部分 0.625
+然后 0.625 * 100 = 62.5
+最后 62.5 取出整数部分得 62
+```
+
+ 
+这里乘以10的次方数，其实就是小数部分取前几位的位数，
+如果有这样的11位小数`0.11111111111`， 把它乘以 10^11, 就可以取到小数部分的所有位数，即 `11111111111.0`，
+它的长度一共是 22 bit.
+
+注释里提到的`11 bit小数部分可以通过乘法可以扩展到 22 bit`就是这个意思
+```
+11 bit fractions expand to 22 bits by the multiplies
+```
 
 
-宏 LOAD_FREQ 是采样计算 load 的间隔时间，为5秒。
+## 宏 LOAD_FREQ 和 EXP_N
+LOAD_FREQ = 5*HZ+1， HZ是用来定义每一秒有几次timer interrupts， 一般是 1000
+所以 LOAD_FREQ 是采样计算 load 的间隔时间，为5秒。
 
 紧接着后面定义了3个魔术值 `EXP_1,EXP_5,EXP_15` 和 一个宏 `CALC_LOAD` ，EXP的三个宏是什么东西？
 解释它们之前要先讲一些数学概念。
@@ -165,8 +216,13 @@ x 和 FIXED_1 - 1 做与运算，刚好取出最后11位
 ```
 s = sum(Xn) / n
 ```
-如果我们要计算CPU load的平均值，我们就需要存储每次采集的Load值。这在以前的硬件条件下是不可能的，
+如果我们要计算CPU load的平均值，我们就需要存储每次采集的Load值。
+每5秒采集一次，那么1分钟需要保存14个值，5分钟70个，15分钟350个。这在以前的硬件条件下是不可能的，
 那时候内存是很稀有的资源，无法保存大量的历史数据在系统里。
+
+那么内核又是如果计算平均值的呢？
+
+先了解几个概念
 
 移动平均
 ----------
