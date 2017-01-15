@@ -30,3 +30,11 @@ http://www.wowotech.net/kernel_synchronization/memory-barrier.html
 
 RCU
 https://www.ibm.com/developerworks/cn/linux/l-rcu/
+
+
+# time
+http://www.halolinux.us/kernel-architecture/highresolution-timers-in-highresolution-mode.html
+
+https://www.landley.net/kdocs/ols/2006/ols2006v1-pages-333-346.pdf
+
+https://github.com/karelzak/util-linux/blob/master/sys-utils/hwclock.c
