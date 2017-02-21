@@ -38,3 +38,20 @@ http://www.halolinux.us/kernel-architecture/highresolution-timers-in-highresolut
 https://www.landley.net/kdocs/ols/2006/ols2006v1-pages-333-346.pdf
 
 https://github.com/karelzak/util-linux/blob/master/sys-utils/hwclock.c
+
+
+# gc
+http://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/index.html
+
+Concurrent Mark Sweep (CMS) Collector
+https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/cms.html
+
+https://blogs.oracle.com/poonam/entry/understanding_cms_gc_logs
+
+
+
+
+http://www.oracle.com/technetwork/java/javase/tech/gc-142724.html
+
+# JVM options
+http://blog.sokolenko.me/2014/11/javavm-options-production.html
