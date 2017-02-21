@@ -14,6 +14,8 @@ if (r->main->count >= 65535 - 1000) {
         return NGX_ERROR;
 }
 ```
+The r->main->count reference counter was always incremented in ngx_http_read_client_request_body(）
 
 http://mailman.nginx.org/pipermail/nginx-devel/2015-August/007259.html
+
 http://nginx.org/patches/attic/chunked/patch-nginx-chunked.txt
