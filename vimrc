@@ -1,6 +1,3 @@
-vim 配置
-
-```
 set paste
 set tabstop=4
 set softtabstop=0
@@ -75,4 +72,3 @@ hi Operator        ctermfg=161
 
 " F5 save and run python code 
 au BufRead *.py map <buffer> <F5> :w<CR>:!/usr/bin/env python % <CR>
-```
