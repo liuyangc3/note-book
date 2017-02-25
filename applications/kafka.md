@@ -19,6 +19,8 @@ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
     export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
 fi
 ```
+
+bin/kafka-run-class.sh
 ```
 # Memory options
 if [ -z "$KAFKA_HEAP_OPTS" ]; then
@@ -29,6 +31,10 @@ fi
 if [ -z "$KAFKA_JVM_PERFORMANCE_OPTS" ]; then
   KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+DisableExplicitGC -Djava.awt.headless=true"
 fi
+```
+jmx bin/kafka-run-class.sh
+```
+KAFKA_JMX_OPTS
 ```
 
 
