@@ -1,3 +1,9 @@
+```
+curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+sudo yum install sbt
+```
+
+
 下载
 ```
 git clone https://github.com/yahoo/kafka-manager.git
