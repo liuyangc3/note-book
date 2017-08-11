@@ -1,4 +1,10 @@
 # 历史回顾
+
+
+http://pubs.opengroup.org/onlinepubs/7908799/xsh/termios.h.html
+http://pubs.opengroup.org/onlinepubs/7908799/xbd/termios.html
+
+http://tldp.org/HOWTO/Serial-Programming-HOWTO/
 ## Early Unices: Seventh Edition Unix 早期 Unix
 由  Unix 32V 和 Seventh Edition Unix, 以及 BSD version 4 提供的 terminal 接口，被认为是老的 terminal 驱动，
 有三种 imput 模式:
