@@ -156,7 +156,11 @@ stack frame layout
 ```
 MOVQ    $0, "".~r2+24(FP)
 ```
+<<<<<<< HEAD
 MOVQ 指令用来移动64位的值 (Q代表 QUADWORD)，FP+24 存入0
+=======
+MOVQ 指令用来移动64位的值 (Q代表 QUADWORD)，FP 存入0
+>>>>>>> 70f77497e70b9dc93524e8b6f19ddfc77498b666
 
 ```
 FUNCDATA        $0, gclocals·54241e171da8af6ae173d69da0236748(SB)
@@ -199,5 +203,8 @@ return AX
 
 # ref
 [A Quick Guide to Go's Assembler](https://golang.org/doc/asm)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70f77497e70b9dc93524e8b6f19ddfc77498b666
 [Golang Internals, Part 5: the Runtime Bootstrap Process](https://blog.altoros.com/golang-internals-part-5-runtime-bootstrap-process.html)
