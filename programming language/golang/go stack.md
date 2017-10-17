@@ -1,4 +1,40 @@
 # go stack
+https://blog.cloudflare.com/how-stacks-are-handled-in-go/
+
+Segmented stacks 是一开始 Go 处理 stacks 的方式，当 goroutine
+创建后，会创建8KB大小的stack 供其使用
+
+
+
+# Contiguous stacks
+https://docs.google.com/document/d/1wAaf1rYoM4S4gtnPh0zOlGzWtrZFQ5suE8qr2sD8uWQ/pub
+
+## why use Contiguous stacks 替代 Segmented stacks
+
+* split stack 机制有 "hot split" 问题，当stack快满时，一个调用
+会强制 alloc 内存给新的stack，当调用返回时，新stack被free，如果同样的
+调用发生在一个循环内， alloc/free 的开销会很大。
+
+* Stack allocation/deallocation work is never complete with split stacks
+
+ every time the stack size passes a threshold in either direction, extra work is required.
+
+## how
+Go编译器会在每个函数的开始，插入一段检测栈是否够用的代码。
+如果空间不够，则会转到runtime.morestack_noctxt，
+分配一个新的足够大的栈空间，将旧栈的内容拷贝到新栈中，然后再执行函数。
+
+
+
+
+
+
+
+
+
+
+
+#
 Stack 在 Linux 上默认值是 8192KB
 ```
 ulimit -s
