@@ -1,0 +1,1 @@
+Assemblers create stream, StreamPool stores these all streams
