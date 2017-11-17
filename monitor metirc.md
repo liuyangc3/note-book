@@ -9,9 +9,9 @@ see https://landing.google.com/sre/book/chapters/monitoring-distributed-systems.
 RED
 在RED方法中，我们通过监控三项关键指标来管理架构中的每个微服务：
 
-*（Request）Rate – 你的服务所服务的每秒的请求数
-*（Request）Errors – 每秒失败的请求数
-*（Request）Duration – 每个请求所花费的时间，用时间间隔表示
+* (Request) Rate – 你的服务所服务的每秒的请求数
+* (Request) Errors – 每秒失败的请求数
+* (Request) Duration – 每个请求所花费的时间，用时间间隔表示
 
 通过RED 检测到通常情况下会影响客户体验的问题
 
