@@ -98,9 +98,27 @@ Hello,say()
 
 典型的例子 http.HandlerFunc
 ```go
+// https://github.com/golang/go/blob/master/src/net/http/server.go
+type Handler interface {
+	ServeHTTP(ResponseWriter, *Request)
+}
+
 type HandlerFunc func(ResponseWriter, *Request)
 
 func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
 	f(w, r)
 }
+
+// https://github.com/ghemawat/stream/blob/master/stream.go
+type Filter interface {
+	RunFilter(Arg) error
+}
+
+type FilterFunc func(Arg) error
+
+func (f FilterFunc) RunFilter(arg Arg) error {
+    return f(arg) 
+}
 ```
+
+简单来说就是，一个普通函数实现了接口，就可以被认为是接口类型
