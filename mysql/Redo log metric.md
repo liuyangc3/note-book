@@ -14,7 +14,7 @@ struct mtr_t {
   };
 };
 ```
-## log_write_requests
+## log_write_requests metric
 
 通常 一个 dml 语句 redo 操作会执行下面三个函数
 ```
@@ -33,9 +33,9 @@ mtr_commit()                          提交mtr，对应了mtr_t::commit()@mtr0m
 ```
 
 
-## log_writes
+## log writer thread
 
-log writer 线程负责把 log buffer 数据按照操作系统block大小(4KB)写入磁盘
+log writer 后台线程负责把 log buffer 数据按照操作系统block大小(4KB)写入磁盘
 
 当磁盘里写入了多个 write completed blocks , log_writes 就会加1
 
