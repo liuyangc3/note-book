@@ -115,6 +115,8 @@ localhost:testdb> SHOW GLOBAL STATUS like '%innodb_log%';
 ```
 事务不提交 是不会产生 mtr_commit() 的, 可以看到 log_write_requests 并没有增加
 
+但是 Innodb_log_writes 多个4个
+
 # refs
 
 http://hedengcheng.com/?p=489
