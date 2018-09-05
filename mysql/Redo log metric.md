@@ -72,7 +72,10 @@ static void log_files_write_buffer(log_t &log, byte *buffer, size_t buffer_size,
   srv_stats.log_writes.inc();
 ```
 
-那么与就是说,服务器只有1个事务要 commit 时, redo log buffer 没有写满 block 也是会进行磁盘写入的
+那么与就是说,每当innodb中有1个事务要 commit 时, 因为 innodb_flush_log_at_trx_commit = 1, 
+log 线程需要把 redo log buffer 写入到磁盘.
+
+虽然 redo log buffer 没有写满 block 大小也是会进行磁盘写入的.
 
 ## log_write_requests - log_write
 MySQLTuner-perl 中有一个统计项是 log_write_requests - log_write
