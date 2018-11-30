@@ -2,13 +2,11 @@ original https://blog.packagecloud.io/eng/2016/04/05/the-definitive-guide-to-lin
 
 # The Definitive guide to Linux System Calls
 
-[TL;DR](##TL;DR)
+* [TL;DR](##TL;DR)
+* [What is a system call?](#what-is-a-system-call?)
+* [Prerequisite information](#prerequisite-information)
+  * [Hardware and software](#hardware-and-software)
 
-[What is a system call?](##What is a system call?)
-
-[Prerequisite information](##Prerequisite information)
-
-[Hardware and software](### Hardware and software)
 ## TL;DR
 
 这篇文章描述了 Linux 程序如何调用 Linux 内核函数.
