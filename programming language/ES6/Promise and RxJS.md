@@ -2,10 +2,10 @@
 
 promise 最大的意义在于把嵌套的回调变成了链式调用
 
-```
+```js
 //回调风格
-doSth(function(){
-    doSth2(function(){
+doSth(function() {
+    doSth2(function() {
         doSth3();
     })
 })
@@ -22,7 +22,7 @@ Promise.resolve().then(function(){
 ```
 
 以Promise作为返回值的函数,大致是这样的：
-```
+```js
 function doSth() {
     return new Promise(function(resolve, reject) {
         //做点什么异步的事情
@@ -34,7 +34,7 @@ function doSth() {
 }
 ```
 如果你不喜欢这样的写法，还可以使用defer风格的promise
-```
+```js
 function doSth2() {
     var defer = Promise.defer();
     //做点什么异步的事情
