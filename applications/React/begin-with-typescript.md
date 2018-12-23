@@ -18,3 +18,18 @@ import * as Adapter from 'enzyme-adapter-react-16';
 
 enzyme.configure({ adapter: new Adapter() });
 ```
+
+## Debug test
+use `node` debugger to debug Jest tests:
+
+https://github.com/Microsoft/vscode-recipes/tree/master/debugging-jest-tests#debugging-tests-in-vs-code
+
+use VS Code extension with `jsdom` debugger:
+
+https://github.com/jest-community/vscode-jest
+
+
+## mock react router
+ https://www.ryandoll.com/post/2018/3/29/jest-and-url-mocking
+
+
