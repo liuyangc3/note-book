@@ -144,8 +144,32 @@ Functions are regular objects with the additional capability of being callable.
 
 Function 也是对象,附带了被调用的能力
 
+需要注意的是声明一致 function 是不同的, 必须是同一个引用
+```js
+shallowEqual(()=> null,()=> null)  // false
 
+var f = () => null
+shallowEqual(f, f)  // true
+``
 PureComponents 仅在 prop 和 state 浅对比不同时, 进行 rerender, 相比 Component 减小了不必要的 render, 提高了性能.
+
+
+经常可以看到这样 inline event 的写法
+```js
+<Child onToggle={() => {
+  this.setState({ IsOpen: true })
+}}/>
+```
+如果 Child 是 PureComponent, 当父组件重新 render 时, 虽然每次 onToggle 的函数声明是一样的, 但是是不同的函数, Child 会重新 render
+
+应该采用这种写法 有一篇详细说明 inline function https://cdb.reacttraining.com/react-inline-functions-and-performance-bdff784f5578
+```js
+//...
+onToggle = () => this.setState({ IsOpen: true });
+render() {
+  return <Child onToggle={this.onToggle}/>
+}
+```
 
 
 
