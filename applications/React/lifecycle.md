@@ -89,8 +89,10 @@ memoize 默认使用 `===` 来对比两次传入的函数的参数, 如果想进
 
 
 
-## React.PureComponent
-Component 没有实现 shouldComponentUpdate(), 而 PureComponent 默认实现了 prop 和 state 的浅对比
+## shouldComponentUpdate and PureComponent
+在普通 Component 里, prop 和 state 产生变化,组件就会重新 render, shouldComponentUpdate 可以手动控制组件是否进行 render.
+
+PureComponent 默认实现了 shouldComponentUpdate(), 自动对变化前后的 prop 和 state 进行浅对比.
 
 ```js
 https://github.com/facebook/react/blob/v16.7.0/packages/react-reconciler/src/ReactFiberClassComponent.js#L280
@@ -100,9 +102,9 @@ if (ctor.prototype && ctor.prototype.isPureReactComponent) {
   );
 }
 ```
-PureComponent 的`ShouldComponentUpdate` 自动通过函数 `shallowEqual` 进行props 和 state 浅对比
+代码很好理解,当组件类型是 PureComponent时, 调用`shallowEqual` 进行props 和 state 浅对比
 
-function 组件可以使用 recompose.pure 实现 PureComponent 的效果
+function 组件没有 shouldComponentUpdate Hook, 在 v16.6 之前 可以使用 recompose.pure 实现类似 PureComponent 的效果.
 
 React v16.6.0 引入了 React.memo, 等同于 recompose.pure.
 
