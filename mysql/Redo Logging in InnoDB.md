@@ -2,8 +2,6 @@ InnoDB Redo Log
 ----------------
 source: https://blogs.oracle.com/mysqlinnodb/entry/redo_logging_in_innodb
 
-翻译： web
-
 
 介绍
 ---
