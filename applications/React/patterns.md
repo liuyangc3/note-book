@@ -1,5 +1,15 @@
 # React Patterns
+总结一些常见的 React 代码组织模式
 
+## conditionally render
+使用条件控制组件渲染
+```js
+<div>
+  {showHeader && <Header />}
+  <Content />
+</div>
+```
+因为 `{}` 内的 boolean, null, undefined 类型的变量不会被渲染
 
 ## render props
 在 props上写 render 函数, render 逻辑可以由父级组件控制, 其的参数可以是组件内部的数据
