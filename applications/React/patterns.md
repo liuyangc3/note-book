@@ -2,7 +2,7 @@
 
 
 ## render props
-在 props上写 render 函数, render 逻辑可以从外面传入进来
+在 props上写 render 函数, render 逻辑可以由父级组件控制, 其的参数可以是组件内部的数据
 ```js
 <DataProvider render={data => (
   <h1>Hello {data.target}</h1>
