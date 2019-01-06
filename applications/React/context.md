@@ -7,7 +7,13 @@ Context lets you “broadcast” such data, and changes to it, to all components
 # 注意事项
 Provider value 不要写成 inline 形式, 否则每次父组件 re-render, value 都会变化, 导致 Consumer 子组件也会 re-render.
 ```js
+// bad
 <Provider value={{something: 'something'}}>
+  <Toolbar />
+</Provider>
+
+// good
+<Provider value={this.state.something}>
   <Toolbar />
 </Provider>
 ```
