@@ -8,14 +8,14 @@ var s = 'Hello    World'
 <span>{s}</span>
 ```
 out in page
-```
+```html
 Hello World
 ```
 解决方式:
 
 1 use `&nbsp;`, 但是没法在变量里使用
-```js
-<span>Hello&nbsp;&nbsp;&nbspWorld</span>
+```html
+<span>Hello&nbsp;&nbsp;&nbsp;World</span>
 ```
 2  使用 `\u00A0` 替换空格
 ```js
