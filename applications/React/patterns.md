@@ -9,9 +9,25 @@
 )}/>
 ```
 
-传统方式下,如果获取组件内部 state 状态, 需要 ref 这个组件.
+传统方式下,如果获取组件内部 state 状态, 需要通过 ref.
+```js
+class App  extends React.Component {
+  ref = React.createRef();
+  
+  componentDidMount() {
+    // get DataProvider state 
+    console.log(this.ref.current.state);
+  }
 
-通过这种方式,我们可以把组件内部的 state 曝露出去
+  render() {
+    return (
+    <DataProvider ref={this.ref}
+    );
+  }
+}
+```
+
+通过`render props` 模式,我们可以把组件内部的 state 曝露出去
 ```js
 class DataProvider extends React.Component {
   state = { data: 'some data' };
