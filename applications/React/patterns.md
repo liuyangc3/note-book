@@ -1,6 +1,27 @@
 # React Patterns
 总结一些常见的 React 代码组织模式
 
+## space in variable
+变量里无论有多少个空格, 渲染后都是一个
+```
+var s = 'Hello    World'
+<span>{s}</span>
+```
+out in page
+```
+Hello World
+```
+解决方式:
+
+1 use `&nbsp;`, 但是没法在变量里使用
+```js
+<span>Hello&nbsp;&nbsp;&nbspWorld</span>
+```
+2  使用 `\u00A0` 替换空格
+```js
+var s = 'Hello    World'.replace(/ /g, '\u00A0')
+```
+
 ## conditionally render
 使用条件控制组件渲染
 ```js
