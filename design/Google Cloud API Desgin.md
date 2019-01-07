@@ -20,7 +20,7 @@ Google REST API 的方法是 `List`,`Get`,`Create`,`Update`, `Delete`
 - 资源拥有状态, 0个或多个子资源.
 
 反模式
-```json
+```js
 [
   "p1": {"id": "p1", "name": "Ane", "age": 21},
   "p2": {"id": "p2", "name": "Bob", "age": 20}
@@ -48,7 +48,7 @@ API 设计
 服务 gmail.googleapis.com
 
 用户集合 users/:uid
-```json
+```js
 [
   // user resource
   {
@@ -75,8 +75,7 @@ users/:uid/settings
 资源是有名称的实体, 每个资源`必须`有`唯一`资源名称, 资源名称由
 一个自己的ID,任意父资源的IDs,API服务名组成.
 
-
-```json
+```js
 #服务名      #集合ID      #资源ID         #资源ID     #资源ID
 mail.apis   /users    /user@example   /settings   /customForm 
 ```
@@ -86,7 +85,7 @@ mail.apis   /users    /user@example   /settings   /customForm
 
 ## 资源ID
 资源ID`可以` 使用用 '/'
-```json
+```js
 #集合ID      #资源ID
 /files    /source/py/parser.py
 ```
