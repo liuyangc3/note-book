@@ -6,6 +6,40 @@
 
 
 ## info
+添加 git 信息, 插件
+```
+plugins {
+	id "com.gorylenko.gradle-git-properties" version "1.5.1"
+}
+```
+添加 build 信息 build.gradle
+```
+springBoot {
+	buildInfo()
+}
+```
+
+返回结果
+```js
+// /actuator/info
+
+{
+  "git": {
+    "commit": {
+    "time": "2019-01-11T10:22+0800",
+    "id": "10cead8"
+  },
+    "branch": "origin/test"
+  },
+  "build": {
+    "version": "1.0-SNAPSHOT",
+    "artifact": "crm-webapp",
+    "name": "crm-webapp",
+    "group": "com.nxin",
+    "time": "2019-01-11T02:23:20.704Z"
+  }
+}
+```
 
 ## httptrace
 默认查看 100 次请求
