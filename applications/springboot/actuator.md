@@ -194,11 +194,45 @@ prometheus 配置上app 的地址后, 就能收集到数据了
 配置 prometheus scrape 收集信息
 
 
-## custom metrics
-默认 metric 不满足需求, 如何自己实现一个 metrics
+## custom endpoint
+当默认的 endpoint 不满足需求, 如何自己实现
+
+自定义 info, 实现 ` InfoContributor` 即可
+```java
+import java.util.Collections;
+
+import org.springframework.boot.actuate.info.Info;
+import org.springframework.boot.actuate.info.InfoContributor;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ExampleInfoContributor implements InfoContributor {
+
+    @Override
+    public void contribute(Info.Builder builder) {
+        builder.withDetail("example",
+        Collections.singletonMap("key", "value"));
+    }
+}
+```
+
+自定义 metrics, 把 `MeterRegistry` 注入到组件里
+
+```java
+class Dictionary {
+
+    private final List<String> words = new CopyOnWriteArrayList<>();
+
+    Dictionary(MeterRegistry registry) {
+        registry.gaugeCollectionSize("dictionary.size", Tags.empty(), this.words);
+    }
+}
+```
 
 # actuator admin
 actuator 有个一个管理界面, 默认使用 euraka 作为服务发现
+
+
 
 # nginx
 deny 外部方式这个 uri
