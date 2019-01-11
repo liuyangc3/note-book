@@ -49,3 +49,6 @@ hikaricp_connections{pool="HikariPool-1",} 10.0
 process_files_open_files 135.0
 ...
 ```
+
+配置 prometheus scrape 收集信息
+
