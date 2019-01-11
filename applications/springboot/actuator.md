@@ -41,8 +41,47 @@ springBoot {
 }
 ```
 
+展示git全部信息
+```
+management.info.git.mode=full
+```
+
 ## httptrace
-默认查看 100 次请求
+默认会记录最近的 100 次请求
+```js
+{
+	"traces": [
+		{
+			"timestamp": "2019-01-11T06:19:38.805Z",
+			"principal": null,
+			"session": null,
+			"request": {
+				"method": "GET",
+				"uri": "http://nxincrm.t.nxin.com/actuator/info",
+				"headers": {
+					"Cookie": ["JSESSIONID=q4bzAHRHCmmOIqWKCPrczoMP01fqdKKnjmUy2F1q"],
+					"Accept": [
+						"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+					],
+					"User-Agent": [
+						"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+					],
+					"X-Forwarded-For": ["10.100.27.29"],
+					"Host": ["nxincrm.t.nxin.com"],
+					...
+				},
+			},
+		"response": {
+			"status": 200,
+
+		},
+		"timeTaken": 18
+	},
+	
+	//  request 2...
+	]
+}
+```
 
 ## metrics
 看连接池信息
