@@ -3,23 +3,21 @@ call-with-current-continuation，
 它可以捕捉当前环境下的 current continuation并利用它做各种各样的事情
 
 # Continuation
-延续
+延续, 假设有个 `add = (x, y) => x + y` 函数, 下面3个表达式是等价的
+```js
+add(4, add(1, 2))
 
-https://www.reddit.com/r/compsci/comments/20g6h2/whats_the_difference_between_a_continuation/
+// 这里的 cont 是 add(1, 2) 的 continuation
+(cont => cont(add(1, 2)))(x => x + 4)
+
+// cont 是 4 的 continuation
+(cont => cont(4))(x => x + add(1, 2))
+```
 
 https://www.quora.com/What-is-continuation-passing-style-in-functional-programming
 
-http://blog.zhaojie.me/2009/03/tail-recursion-and-continuation.html
-
-https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf
-
-refs:
-
-https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/reynolds-discoveries.pdf
-
-
-# Continuation passing style
-CPS 是一种定义和执行函数的方式
+CPS
+Continuation-passing style 是一种定义和执行函数的方式
 
 正常函数传入参数，经过计算返回结果，这里的返回是语言层面的，并不由程序控制。
 而CPS的做法是对 "返回" 做了明确定义，赋予我们对最后的控制流更多的控制力。
