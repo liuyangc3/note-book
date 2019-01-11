@@ -5,13 +5,13 @@
 添加 git 信息, 插件
 ```
 plugins {
-	id "com.gorylenko.gradle-git-properties" version "1.5.1"
+  id "com.gorylenko.gradle-git-properties" version "1.5.1"
 }
 ```
 添加 build 信息 build.gradle
 ```
 springBoot {
-	buildInfo()
+  buildInfo()
 }
 ```
 
