@@ -2,7 +2,7 @@
 
 
 
-
+# actuator
 
 
 ## info
@@ -105,6 +105,13 @@ prometheus 配置上app 的地址后, 就能收集到数据了
 
 配置 prometheus scrape 收集信息
 
+
+## custom metrics
+默认 metric 不满足需求, 如何自己实现一个 metrics
+
+# actuator admin
+actuator 有个一个管理界面, 默认使用 euraka 作为服务发现
+
 # nginx
 deny 外部方式这个 uri
 ```
@@ -112,3 +119,4 @@ location /actuator {
   deny all;
 }
 ```
+
