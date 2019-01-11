@@ -52,3 +52,10 @@ process_files_open_files 135.0
 
 配置 prometheus scrape 收集信息
 
+# nginx
+deny 外部方式这个 uri
+```
+location /actuator {
+  deny all;
+}
+```
