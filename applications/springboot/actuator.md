@@ -8,9 +8,59 @@
 ## info
 
 ## httptrace
+默认查看 100 次请求
 
 ## metrics
+看连接池信息
 
+```js
+// /actuator/metrics/hikaricp.connections.pending
+
+{
+  "name": "hikaricp.connections.pending",
+  "description": "Pending threads",
+  "baseUnit": null,
+  "measurements": [
+    {
+      "statistic": "VALUE",
+      "value": 0
+    }
+  ],
+  "availableTags": [{
+    "tag": "pool",
+    "values": [
+      "HikariPool-1",
+      "HikariPool-2"
+    ]
+  }]
+}
+```
+
+看请响应值200的求次数和时间
+
+```js
+// /actuator/metrics/http.server.requests?tag=uri:/user/getUserResources&tag=status:200
+
+{
+  "name": "http.server.requests",
+  "description": null,
+  "baseUnit": "seconds",
+  "measurements": [
+  {
+    "statistic": "COUNT",
+    "value": 1
+  },
+  {
+    "statistic": "TOTAL_TIME",
+    "value": 0.937897519
+  },
+  {
+    "statistic": "MAX",
+    "value": 0
+  }
+  ],
+  ...
+```
 
 ## prometheus
 
@@ -49,6 +99,9 @@ hikaricp_connections{pool="HikariPool-1",} 10.0
 process_files_open_files 135.0
 ...
 ```
+
+prometheus 配置上app 的地址后, 就能收集到数据了
+![](pro.png)
 
 配置 prometheus scrape 收集信息
 
