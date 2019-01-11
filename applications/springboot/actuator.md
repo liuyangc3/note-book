@@ -83,6 +83,25 @@ management.info.git.mode=full
 }
 ```
 
+## health
+监控状态检查
+```js
+// /actuator/health
+
+{
+	"status": "UP",
+	"details": {
+		"diskSpace": {
+		"status": "UP",
+		"details": {
+			"total": 105551921152,
+			"free": 95758790656,
+			"threshold": 10485760
+		}
+	},
+...
+```
+
 ## metrics
 看连接池信息
 
