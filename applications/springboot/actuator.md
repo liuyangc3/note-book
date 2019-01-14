@@ -230,9 +230,10 @@ class Dictionary {
 ```
 
 # actuator admin
-actuator 有个一个管理界面, 默认使用 euraka 作为服务发现
+actuator 有个一个管理界面, 默认使用 euraka 作为服务发现, 但是并不是所有项目都使用了 `euraka`
 
-
+通过内部 project 项目实现了一个 DiscoveryClient
+https://gitlab.nxin.com/wenqx/actuator-admin/blob/master/src/main/java/com/nxin/actuator/core/ProjDiscoveryClient.java
 
 # nginx
 deny 外部方式这个 uri
