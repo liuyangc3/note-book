@@ -219,15 +219,71 @@ public class ExampleInfoContributor implements InfoContributor {
 自定义 metrics, 把 `MeterRegistry` 注入到组件里
 
 ```java
-class Dictionary {
+@Configuration
+@EnableConfigurationProperties(MetricsProperties.class)
+public class MetricsConfiguration {
 
-    private final List<String> words = new CopyOnWriteArrayList<>();
-
-    Dictionary(MeterRegistry registry) {
-        registry.gaugeCollectionSize("dictionary.size", Tags.empty(), this.words);
-    }
+  @Bean
+	public MyTestMetrics myTestMetrics() {
+		return new MyTestMetrics();
+	}
 }
 ```
+ 
+```java
+import io.micrometer.core.instrument.Measurement;
+import io.micrometer.core.instrument.Meter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Statistic;
+import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.Meter.Type;
+import io.micrometer.core.instrument.binder.MeterBinder;
+
+import static java.util.Collections.emptyList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyTestMetrics implements MeterBinder {
+
+	private final Iterable<Tag> tags;
+
+	public MyTestMetrics() {
+		this(emptyList());
+	}
+
+	public MyTestMetrics(Iterable<Tag> tags) {
+		this.tags = tags;
+	}
+
+	@Override
+	public void bindTo(MeterRegistry registry) {
+		Iterable<Tag> tagsWithId = Tags.concat(tags, "id", "name");
+		List<Measurement> measurementList = new ArrayList<>();
+		Measurement measurement = new Measurement(() ->{return 10D;}, Statistic.VALUE); 
+		measurementList.add(measurement);	
+		Meter.builder("my.test.metrics", Type.OTHER, measurementList)
+			.tags(tagsWithId)
+			.description("description")
+			.register(registry);
+
+		Iterable<Tag> tagsWithId2 = Tags.concat(tags, "id", "name2");
+		List<Measurement> measurementList2 = new ArrayList<>();
+		Measurement measurement3 = new Measurement(() ->{return 10D;}, Statistic.VALUE); 
+		Measurement measurement2 = new Measurement(() ->{return 20D;}, Statistic.COUNT); 
+		measurementList2.add(measurement2);
+		measurementList2.add(measurement3);
+		Meter.builder("my.test.metrics", Type.OTHER, measurementList2)
+			.tags(tagsWithId2)
+			.description("description2")
+			.register(registry);
+	}
+}
+```
+自动曝露到 Prometheus
+
+![](pro2.png)
 
 # actuator admin
 actuator 有个一个管理界面, 默认使用 euraka 作为服务发现, 但是并不是所有项目都使用了 `euraka`
