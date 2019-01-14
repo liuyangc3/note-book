@@ -243,3 +243,9 @@ location /actuator {
 }
 ```
 
+# 其他
+```
+management.health.ldap.enabled = false
+management.endpoint.shutdown.enabled=false
+```
+
