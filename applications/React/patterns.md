@@ -95,7 +95,7 @@ class DataProvider extends React.Component {
 
 ## debounce
 例如下面的组件,用户每次在 input 输入后,会从后台搜索用户的输入,并将结果展示出来
-```
+```js
 class Search extends React.Component {
   state = { 
     value: '',
