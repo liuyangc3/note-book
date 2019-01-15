@@ -92,3 +92,57 @@ class DataProvider extends React.Component {
   )}
 </DataProvider>
 ```
+
+## debounce
+例如下面的组件,用户每次在 input 输入后,会从后台搜索用户的输入,并将结果展示出来
+```
+class Search extends React.Component {
+  state = { 
+    value: '',
+    result: ''
+  };
+  
+  handleChange = e => {
+    const vaule = e.target.value;
+    this.setState({ value });
+    
+    fetch('/api/search')
+    .then(
+      resp => resp.json
+    ).then(
+      result => this.setState({ result });
+    );
+  }
+  
+  render() {
+    return (
+      <input value={this.state.value} onChange={this.handleChange} />
+      <span>{this.state.result}</span>
+    );
+  }
+}
+```
+每次输入产生变化就取后端搜索性能很低,会有大量请求, 比如我想用户输停止输入 1s后 再去后台搜索,应该如何做
+
+```js
+function debounce(func, wait) {
+  let timer;
+  return function () {
+    const context = this;
+    const args = arguments;
+
+    // 每次函数调用时清除定时器
+    // 这样 timer 里的 func
+    // 在超时前就不会正真被执行
+    clearTimeout(timer);
+
+    return new Promise((resolve, reject) => {
+      // 重新设置新的定时器
+      timer = setTimeout(() => {
+        timer = null;
+        resolve(func.apply(context, args));
+      }, wait);
+    });
+  };
+};
+```
