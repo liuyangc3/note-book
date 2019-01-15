@@ -105,3 +105,15 @@ class Solution {
     }
 }
 ```
+扩展思考, 如果可以删除 2 个呢, abc`z`cb`x`a -> abccba
+```
+int delCount = 2;
+for (i, j ...) {
+    if (delCount < 0) return false;
+    if(s.charAt(i) != s.charAt(j)) {
+      ...
+      // 不是回文串不能提前 retrun
+      delCount--;
+    }
+}
+```
