@@ -107,11 +107,8 @@ class Search extends React.Component {
     this.setState({ value });
     
     fetch('/api/search')
-    .then(
-      resp => resp.json
-    ).then(
-      result => this.setState({ result });
-    );
+    .then(resp => resp.json)
+    .then(result => this.setState({ result }));
   }
   
   render() {
@@ -154,11 +151,8 @@ handleChange = e => {
   this.setState({ value });
 
   debouncedFetch('/api/search')
-  .then(
-    resp => resp.json
-  ).then(
-    result => this.setState({ result });
-  );
+  .then(resp => resp.json)
+  .then(result => this.setState({ result }));
 }
 ```
 不想自己实现的话, 可以使用 lodash 的 debounce 函数
