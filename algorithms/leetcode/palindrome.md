@@ -109,11 +109,11 @@ class Solution {
 ```
 int delCount = 2;
 for (i, j ...) {
-    if (delCount < 0) return false;
     if(s.charAt(i) != s.charAt(j)) {
-      ...
-      // 左右移动后,子串不是回文串不能提前 retrun
-      delCount--;
+        if(delCount <= 0) return false;
+        ...
+        // 左右移动后,子串不是回文串不能提前 retrun
+        delCount--;
     }
 }
 ```
