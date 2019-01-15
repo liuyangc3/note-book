@@ -52,7 +52,7 @@ class App  extends React.Component {
 
   render() {
     return (
-    <DataProvider ref={this.ref}
+      <DataProvider ref={this.ref}
     );
   }
 }
