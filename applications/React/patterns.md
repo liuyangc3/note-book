@@ -122,7 +122,7 @@ class Search extends React.Component {
   }
 }
 ```
-每次输入产生变化就取后端搜索性能很低,会有大量请求, 比如我想用户输停止输入 1s后 再去后台搜索,应该如何做
+每次输入产生变化就取后端搜索性能很低,会有大量请求, 比如我想用户输停止输入 1s后 再去后台搜索,应该如何做?
 
 ```js
 function debounce(func, wait) {
@@ -146,3 +146,19 @@ function debounce(func, wait) {
   };
 };
 ```
+每1s内只会请求后端1次
+```js
+const debouncedFetch = debounce(fetch, 1000);
+handleChange = e => {
+  const vaule = e.target.value;
+  this.setState({ value });
+
+  debouncedFetch('/api/search')
+  .then(
+    resp => resp.json
+  ).then(
+    result => this.setState({ result });
+  );
+}
+```
+不想自己实现的话, 可以使用 lodash 的 debounce 函数
