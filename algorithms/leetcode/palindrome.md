@@ -112,7 +112,7 @@ for (i, j ...) {
     if (delCount < 0) return false;
     if(s.charAt(i) != s.charAt(j)) {
       ...
-      // 不是回文串不能提前 retrun
+      // 左右移动后,子串不是回文串不能提前 retrun
       delCount--;
     }
 }
