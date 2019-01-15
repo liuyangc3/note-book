@@ -36,18 +36,36 @@ class Solution {
 x = 120021, y = x % 10 = 1
 
 x = x/10 = 12002
-x % 10 = 2
-y = 10 * y + 2 = 12
+z = x % 10 = 2
+y = 10 * y + z = 12
 
 x = x/10 = 1200
-x % 10 = 0
-y = 10 * y + 0 = 120 
+z = x % 10 = 0
+y = 10 * y + z = 120 
 
 x = x/10 = 120 
-x % 10 = 2
-y = 10 * y + 2 = 1202
+z = x % 10 = 2
+y = 10 * y + z = 1202
 x < y
 ```
+需要注意一些边界条件, 例如
+- 100 这样以`0`结尾的肯定不是回文
+- x 长度是偶数时, 最后一次迭代后 y 长度比 x 多一位
+- x 长度是奇数时, 最后一次迭代后 y 长度等于 x.
 
 ```java
+class Solution {
+    public boolean isPalindrome(int x) {
+        if(x < 0){return false;}
+        if(x < 10) {return true;}
+        
+        int y = x % 10; 
+        if(y == 0){return false;}
+        while(y < x) {
+            x /= 10;
+            y = 10 * y + x % 10;
+        }
+        return x == y || x == y / 10;
+    }
+}
 ```
