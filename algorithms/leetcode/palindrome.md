@@ -69,3 +69,39 @@ class Solution {
     }
 }
 ```
+
+## 回文串2 #680
+给定非空字符串a-z, 可以删除一个字符,判断是否是回文, 例如 'abca' 是, 因为可以删除 c or b
+
+这个题比回文串多了一个可以删除1位, 感觉可以在回文的基础上, i,j 对比后如果不等, 跳过1次, 继续对比
+
+```java
+class Solution {
+    public boolean validPalindrome(String s) {
+        for(int i = 0, j = s.length() - 1; i < j; ++i, --j) {
+            if(s.charAt(i) != s.charAt(j)) {
+                // 当出现不一致的情况后
+                // 右移 i 看剩下的是否是回文
+                boolean result_move_i = true;
+                for(int x= i + 1, y = j ; x < y; ++x, --y) {
+                     if(s.charAt(x) != s.charAt(y)) {
+                         result_move_i = false;
+                         break;
+                     }
+                }
+                // 右移动是回文, 返回结果
+                if(result_move_i) return true;
+                
+                //右移不是回文, 左移 j 看剩下的是否是回文
+                for(int x = i, y= j - 1; x < y; ++x, --y) {
+                     if(s.charAt(x) != s.charAt(y)) {
+                         return false;
+                     };
+                }
+                return true;
+            }
+        }
+        return true;      
+    }
+}
+```
