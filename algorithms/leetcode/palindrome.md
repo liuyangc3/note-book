@@ -164,9 +164,9 @@ class Solution {
 ```
 扩展思考, 不同的最长回文串的个数? 只需改动一行
 ```
-// solition 1
+// Solution 1
 return m.size() + count;
-// solition 2
+// Solution 2
 carry++;
 ```
 
