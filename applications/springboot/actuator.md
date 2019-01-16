@@ -2,20 +2,25 @@
 
 
 ## info
-添加 git 信息, 插件
+1 添加 git 信息, 插件
 ```
 plugins {
   id "com.gorylenko.gradle-git-properties" version "1.5.1"
 }
 ```
-添加 build 信息 build.gradle
+加入配置文件, 展示git全部信息
+```
+management.info.git.mode=full
+```
+
+2 添加 build 信息 build.gradle
 ```
 springBoot {
   buildInfo()
 }
 ```
 
-返回结果
+3 请求返回结果
 ```js
 // /actuator/info
 
@@ -37,10 +42,7 @@ springBoot {
 }
 ```
 
-展示git全部信息
-```
-management.info.git.mode=full
-```
+
 
 ## httptrace
 默认会记录最近的 100 次请求
