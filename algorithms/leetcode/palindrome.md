@@ -117,3 +117,56 @@ for (i, j ...) {
     }
 }
 ```
+
+## 最长回文串 #409
+给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串, 例如 `abccdd` 可以得到 `ccadd` 或 `ccbdd`, 长度是 5.
+
+思路, 如果只算回文串长度,很简单, 计算所有出现2次字母的个数, 创建一个hashmap, 从左遍历, 字母不在map里加入map, 已经在map, 删除, 总数+2, 遍历完成后,如果map不为空, 总数在加1 
+
+```java
+class Solution {
+    public int longestPalindrome(String s) {
+        Map<Character,Integer> m = new HashMap<>();
+        int count =0;
+        for(char c: s.toCharArray()) {
+            if (m.containsKey(c)) {
+                count = count + 2;
+                m.remove(c);
+            } else {
+                m.put(c, 0);
+            }
+        }
+        return m.size() > 0 ? count + 1 : count;       
+    }
+}
+
+// 优化版本, 用 array 代替 map
+class Solution {
+    public int longestPalindrome(String s) {
+        int[] m = new int[128]; // z is 122
+        for(char c: s.toCharArray()) {
+            m[c]++;
+        }
+        int count = 0, carry = 0;
+        for(int i = 0;i < 128; ++i) {
+            if(m[i]> 0) {
+                if(m[i] % 2 == 0) {
+                    count += m[i];
+                } else {
+                    count += m[i] - 1;
+                    carry = 1;
+                }
+            } 
+        }
+        return count + carry;       
+    }
+}
+```
+扩展思考, 不同的最长回文串的个数? 只需改动一行
+```
+// solition 1
+return m.size() + count;
+// solition 2
+carry++;
+```
+
