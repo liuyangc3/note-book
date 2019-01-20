@@ -1,13 +1,11 @@
-1 use an array store data
-2 
-
+思想, O(1) 存取 kv 对,  使用一个 M size array 保存 value, 使用 hash 函数将 key 映射为正整数, 然后作为 array index.
 ```js
 index = hash(key)  // hash function
 value = array[index]
 ```
 
-
 # hash function
+有如下几种实现
 
 ## division Method
 如果 有 M 个 key v 对, 需要size M 的数组
@@ -52,6 +50,7 @@ floor 表示取整, `KA  - floor(KA)` 表示取 KA 的小数部分, 也可用 `K
 虽然这个方法对任何的 A 值都适用，但对某些值效果更好，最佳的选择与待哈希的数据的特征有关。Don Knuth 认为 A ≈ (√5-1)/2 = 0.618 033 988... 比较好，可称为黄金分割点。
 
 ## universal hash
+todo 
 
 # collision resolution
 不同的key 通过hash 函数得到的值可能相同, 这就叫hash冲突, 如果hash 函数将 N 个 KEY 值映射到 M 个整数上(M >= N), 那么这个函数就是  `Perfect Hash Function` 即没有冲突,
@@ -118,7 +117,7 @@ http://codecapsule.com/2013/07/20/cuckoo-hashing/
 CMU 发明,基本思想是使用2个hash函数来处理碰撞，从而每个key都对应到2个位置
 
 
-# consistent hashing 一致性 hash
+## consistent hashing 一致性 hash
 MIT 提出的分布式hash, 空间范围 [0, 2^32 -1], 是个环形空间, 即 2^32 是 0.
 
 每个分布式 node hash 后, 会在环上的一个位置, 插入的数据 hash 后也会有位置, 数据index < 右边第一个节点index 的 就被记录属于这个节点.
