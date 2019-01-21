@@ -1,4 +1,6 @@
-容器网络通信运行时调用 CNI 接口 Container Network Interface,CNI 有很多实现
+容器网络通信运行时调用 CNI 接口 Container Network Interface,CNI 有很多实现, 
+
+flannel 是内置的, 还有 calico , cannel (calico+flannel) 等等
 
 # flannel
 支持多种方式 vxlan udp, udp 性能稍差, vxlan 已经在内核实现
