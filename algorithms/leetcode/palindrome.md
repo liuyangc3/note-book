@@ -183,13 +183,76 @@ public class ListNode {
 
 其实也不能确切地说是反转链表, 是链表的值的顺序反转回来, 保存值的形式不一定是链表, 我们可以用数组或者栈保存值.
 
- 
+这里用 stack 保存.
 ```java
-
-
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> st = new Stack<>();
+        if(head == null) {return true;}
+        if(head.next ==  null) {return true;}
+        
+        // loop half of linklist
+        ListNode i= head , j = head;
+        while(true) {
+ 
+            if(j.next == null) {
+                // i on middle of linklist
+                // donet need save i to stack
+                break;
+            }
+            if(j.next.next == null) {
+                // i on left of middle
+                st.push(i.val);
+                break;
+            }
+            st.push(i.val);
+            i = i.next;
+            j = j.next.next;
+        }
+        
+        while(i.next != null) {
+            i = i.next;
+            if(i.val != st.pop()) return false;
+        }
+        return true;
+    }
+}
 ```
 
 
-进阶, 要求 O(n) 时间复杂度和 O(1) 空间复杂度.
+进阶, 要求 O(n) 时间复杂度和 O(1) 空间复杂度. 不能使用栈保存元素了
+
+只能修改原链表, 把左边的部分反转, 然后对比左右
 ```java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+         if (head == null || head.next == null) {
+            return true;
+        }
+        
+        // loop half of linklist
+        ListNode i = head , j = head;
+        while(j.next != null && j.next.next != null) {
+            i = i.next;
+            j = j.next.next;
+        }
+        
+        // reverse right part            
+        ListNode pre = null, n = null;
+        while(i.next != null) {
+            n = i.next;
+            i.next = pre;
+            pre = i;
+            i = n;
+        }
+        i.next = pre;
+        
+        while(i.next != null) {
+            if(i.val != head.val) return false;
+             i = i.next;
+             head = head.next;
+        }
+        return true;
+    }
+}
 ```
