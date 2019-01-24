@@ -5,7 +5,7 @@
 ```
 
 # register hander
-如果 proxy_ignore_client_abort on 则开启检测
+如果 proxy_ignore_client_abort 不为 on 则开启检测
 
 # 499 handler
 ```c
