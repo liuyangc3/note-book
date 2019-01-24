@@ -256,3 +256,44 @@ class Solution {
     }
 }
 ```
+
+## 回文子串 #67
+
+给定一个字符串，计算这个字符串中有多少个回文子串,具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。
+
+简单思路, 暴力遍历子串, 然后判断字串是不是回文, 并记录到hashset里.
+
+```java
+class Solution {
+    public int countSubstrings(String s) {
+        int res = 0;
+        HashSet<String> set = new HashSet<>();
+        for(int i=0; i < s.length(); ++i) {
+            for(int j = i; j < s.length(); ++j) {
+                String sub = s.substring(i, j + 1);
+                
+                if (set.contains(sub)) {
+                    res++;
+                } else if (isPalindrome(sub)) {
+                    set.add(sub);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    
+    private boolean isPalindrome(String s) {
+        char[] array = s.toCharArray();
+        int i = 0, j = array.length - 1;
+        while(i < j) {
+            if(array[i] != array[j]) {
+                return false;
+            }
+            ++i;
+            --j;
+        }
+        return true;
+    }
+}
+```
