@@ -297,3 +297,49 @@ class Solution {
     }
 }
 ```
+
+思路2
+
+观察可以发现, 如果 `S` 是一个长度 n 回文,  那么  `xSy` 是回文的条件是  x == y, 那么我们可以从字符串中点开始,向两边检查.
+
+S 长度为奇数, 左右起始点就是 s 里当前字符串的位置, 然后依次探测两边即可/
+
+但是如果 S 长度为偶数,左右起始点就是 S最左边和S最右边. 可以通过一种方法把偶数变成奇数,例如在每个 char 之间插入一个 `#`
+
+```
+ab -> a#b,  abba -> a#b#b#a#
+```
+这样中点就成了 `#`
+
+```java
+class Solution {
+    public int countSubstrings(String s) {
+        int res = 0;
+        char[] array = transform(s).toCharArray();
+        
+        for (int i = 0; i < array.length; ++i) {
+            for (int left = i, right = i; left >= 0 && right < array.length; --left, ++right) {
+                if (array[left] == array[right]) {
+                    //  # 不能算作回文次数
+                    if(array[left] != '#') res++;
+                } else {
+                    break; // stop check left and right
+                }
+            }
+        }
+        return res;
+    }
+
+    private String transform(String s) {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            buf.append(s.charAt(i)).append("#");
+        }
+        // remove last #
+        buf.delete(buf.length() - 1, buf.length());
+        return buf.toString();
+    }
+}
+```
+
+
