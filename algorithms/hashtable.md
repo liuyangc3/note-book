@@ -78,24 +78,34 @@ collision 一般有几种解决方法
   . 
 ```
 
+假如table size 是 1, hashtable 就变成一个链表, 插入读取就不是O(1),而变成 O(n) n是链表长度,解决方式是开放寻址
+
 ## Open Addressing 开放寻址法
 
 主要思想是当出现冲突后, 用 probe 找个一个空的位置,把值存入
 
-这个 probe 方式有
+hash 函数 `hash(k) = k % m` 可以转化为
+```js
+hash(k, i) = (hash'(k) + f(i)) % m
+```
+hash' 是hash 函数, i = 0, 当出现冲突后 i + 1
+
+根据 f(i) 实现不同, probe 方式分为
 
 1 linear probe 线性探查
 ```js
-hash(k, j) = (_hash(k) + j) % m    // 0 <= j <= m-1  
+f(i) = i
 ```
 
 2 quadratic probing 二次探查
-
-todo
-
-
-
-
+```js
+f(i) = i^2
+```
+3 dobble hash 双重hash
+```js
+f(i) = i * hash2(k)
+```
+构造 hash2函数需要注意 hash2的 m2 不能是 hash m 的除数, 且m2 < m.
 
 # 一些应用
 
@@ -130,6 +140,8 @@ MIT 提出的分布式hash, 空间范围 [0, 2^32 -1], 是个环形空间, 即 2
 
 # refs
 https://algs4.cs.princeton.edu/34hash/
+
+https://courses.cs.washington.edu/courses/cse373/18au/files/slides/lecture14.pdf
 
 https://www.cs.cmu.edu/afs/cs/academic/class/15210-s14/www/lectures/hash.pdf
 
