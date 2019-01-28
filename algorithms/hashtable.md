@@ -49,16 +49,11 @@ floor 表示取整, `KA  - floor(KA)` 表示取 KA 的小数部分, 也可用 `K
 
 虽然这个方法对任何的 A 值都适用，但对某些值效果更好，最佳的选择与待哈希的数据的特征有关。Don Knuth 认为 A ≈ (√5-1)/2 = 0.618 033 988... 比较好，可称为黄金分割点。
 
-## universal hash
-todo 
 
 # collision resolution
-不同的key 通过hash 函数得到的值可能相同, 这就叫hash冲突, 如果hash 函数将 N 个 KEY 值映射到 M 个整数上(M >= N), 那么这个函数就是  `Perfect Hash Function` 即没有冲突,
-如果 M == N, 就叫 Minimal Perfect Hash Function
+ load factor 装载因子  keys/tablesize
 
-这种完美hash,可以减少存储空间, 通常需要知道 key的 集合, 通过特定算法生成hash 函数, 而我们日常编程使用的都是不确定 key的. 所以会遇到冲突问题
 
-全域哈希 Univeral Hashing 可以设计完美hash
 
 collision 一般有几种解决方法
 
@@ -77,6 +72,8 @@ collision 一般有几种解决方法
 +---+    +---+
   . 
 ```
+insert O(1), find O(1 + load_factor), delete O(1 + load_factor)
+
 
 假如table size 是 1, hashtable 就变成一个链表, 插入读取就不是O(1),而变成 O(n) n是链表长度,解决方式是开放寻址
 
@@ -86,9 +83,12 @@ collision 一般有几种解决方法
 
 hash 函数 `hash(k) = k % m` 可以转化为
 ```js
-hash(k, i) = (hash'(k) + f(i)) % m
-```
-hash' 是hash 函数, i = 0, 当出现冲突后 i + 1
+hash(k, i) = (hash2(k) + f(i)) % m
+``` 
+i = 0, 当出现冲突后 i + 1
+
+构造 hash2函数需要注意 hash2的 m2 不能是 hash m 的除数, 且m2 < m.
+
 
 根据 f(i) 实现不同, probe 方式分为
 
@@ -105,7 +105,25 @@ f(i) = i^2
 ```js
 f(i) = i * hash2(k)
 ```
-构造 hash2函数需要注意 hash2的 m2 不能是 hash m 的除数, 且m2 < m.
+#  Perfect hash
+不同的 key 通过hash 函数得到的值可能相同, 这就叫hash冲突, 如果hash 函数将 N 个 KEY 值映射到 M 个整数上(M >= N), 那么这个函数就是  `Perfect Hash Function` 即没有冲突, 如果 M == N, 就叫 Minimal Perfect Hash Function, 即 key 和 table 是一一映射的.
+
+这种完美 hash 一般都是已经知道 key 的范围, 通过然后特定算法生成 hash 函数, 不会存在冲突问题, 性能较好.
+
+而我们日常编程使用的都是不确定 key 的. 所以会遇到冲突问题.
+
+
+
+# Universal hash
+定义：设U为键的全域，H是哈希的有限集，H里面的每个哈希函数h将集合U映射到哈希表的m个位置上
+
+如果哈希表满足：对于U里面的两个值x,y x≠y {h∈H：h(x)=h(y)}=|H|/m，那么H就是全域的。
+
+|H|的意思是指全域哈希函数的个数，那么从里面任意取一个函数h，这个函数把x和y哈希到同一个位置的概率就是1/m，也就是说，这些函数都是均匀函数。
+
+
+全域哈希 Univeral Hashing 可以设计完美 hash
+
 
 # 一些应用
 
