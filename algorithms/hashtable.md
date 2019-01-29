@@ -124,6 +124,31 @@ f(i) = i * hash2(k)
 
 全域哈希 Univeral Hashing 可以设计完美 hash
 
+# hash functions
+常见hash functions
+
+1 lookup3, Bob Jenkins在1997年发表了一篇关于哈希函数的文章《A hash function for hash Table lookup》，这篇文章自从发表以后现在网上有更多的扩展内容。这篇文章中，Bob广泛收录了很多已有的哈希函数，这其中也包括了他自己所谓的“lookup2”。随后在2006年，Bob发布了lookup3。
+Bob很好的实现了散列的均匀分布，但是相对来说比较耗时，它有两个特性，1是具有抗篡改性，既更改输入参数的任何一位都将带来一半以上的位发生变化，2是具有可逆性，但是在逆运算时，它非常耗时。
+
+2 Murmur3
+murmurhash是 Austin Appleby于2008年创立的一种非加密哈希算法，适用于基于哈希进行查找的场景。murmurhash最新版本是MurMurHash3，支持32位、64位及128位值的产生。
+MurMur经常用在分布式环境中，比如Hadoop，其特点是高效快速，但是缺点是分布不是很均匀。
+
+3 FNV-1a
+FNV又称Fowler/Noll/Vo，来自3位算法设计者的名字（Glenn Fowler、Landon Curt Noll和Phong Vo）。FNV有3种：FNV-0（已过时）、FNV-1、FNV-1a，后两者的差别极小。FNV-1a生成的哈希值有几个特点：无符号整形；哈希值的bits数，是2的n次方（32, 64, 128, 256, 512, 1024），通常32 bits就能满足大多数应用。
+
+4 CityHash
+2011年，google发布CityHash（由Geoff Pike 和Jyrki Alakuijala编写）,其性能好于MurmurHash。
+但后来CityHash的哈希算法被发现容易受到针对算法漏洞的攻击，该漏洞允许多个哈希冲突发生。
+
+5 SpookyHash
+又是Bob Jenkins哈希牛人的一巨作，于2011年发布的新哈希函数性能优于MurmurHash，但是只给出了128位的输出，后面发布了SpookyHash V2，提供了64位输出。
+
+6 FarmHash
+FarmHash也是google发布的，FarmHash从CityHash继承了许多技巧和技术，是它的后继。FarmHash声称从多个方面改进了CityHash。
+
+7 xxhash
+xxhash由Yann Collet发表，http://cyan4973.github.io/xxHash/ 这是它的官网，据说性能很好，似乎被很多开源项目使用，Bloom Filter的首选。
 
 # 一些应用
 
