@@ -1,4 +1,4 @@
-解析化学表达式  5 kyu
+解析化学表达式  5 kyu  https://www.codewars.com/kata/52f831fa9d332c6591000511/train/python
 ```
 input  'H2O'
 output {H: 2, O: 1}
