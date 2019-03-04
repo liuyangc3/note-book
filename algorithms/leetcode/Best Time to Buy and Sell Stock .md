@@ -40,3 +40,30 @@ class Solution {
     }
 }
 ```
+
+# 122 
+可以多次买卖, 但是买之前需要卖掉
+
+![](bs.png)
+
+
+可以看出, 2次操作的高度和(s1- b1 + s2 -b2)大于一次操作(s2-b1),
+所以策略是比之前低价就买入, 最高点卖出,
+
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length == 0) return 0;
+        int buy = prices[0], profit = 0;
+        for(int i=1;i<prices.length; i++) {
+            if(prices[i] < prices[i -1]) {
+                profit += prices[i -1] - buy;
+                buy = prices[i];
+            }
+        }
+        profit += prices[prices.length - 1] - buy;
+        return profit;
+    }
+}
+```
