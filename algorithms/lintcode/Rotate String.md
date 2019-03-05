@@ -63,5 +63,24 @@ public class Solution {
 前两次reverse和是 O(n), 后一次reverse是 O(n) 整体  O(2n) =  O(n)
 
 
+# leetcode 796. Rotate String
+和上面一样, 给出 2个 字符串S1,S2 , 判断其中一个是另一个的 Rolling String
+
+1 每次S1 rolling 1个char, 将结果和S2对比, 相同返回true,  当S1 所有char rolling 完成后, 仍然不相等返回 false
+
+根据上面的算法 每次 rolling 是O(n), rolling n 次. 所以 复杂度 O(n^2).
+
+
+2 S1 + S1 如果包含 S2 则返回true,  O(n^2).
+```java
+class Solution {
+    public boolean rotateString(String A, String B) {
+        return A.length() == B.length() && (A + A).contains(B);
+    }
+}
+```
+
+3 Rolling Hash 
+
 
 
