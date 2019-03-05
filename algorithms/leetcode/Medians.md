@@ -56,4 +56,11 @@ class MedianFinder {
 }
 ```
 
-堆插入是 O(logn), 取 top 是 O(1) , O(logn) + O(1) = O(logn)
+堆插入是 O(logn), 取 top 是 O(1) , O(5 * logn) + O(1) = O(logn)
+
+空间 O(n)
+
+
+multiset + 双指针
+
+
