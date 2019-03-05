@@ -35,3 +35,31 @@ Example 4
 
 挑战 O(1) 空间,原地 rotate
 
+3 步反转
+
+```
+public class Solution {
+    public void rotateString(char[] str, int offset) {
+        if(str.length == 0) return;
+        // offset can big than str lenth .....
+        offset = offset % str.length;
+	// reverse chars before offset
+        reverse(str, 0, str.length - offset - 1);
+	// reverse chars after offset
+        reverse(str, str.length - offset, str.length - 1);
+	// reverse str
+        reverse(str, 0, str.length - 1);
+    }
+    
+    public void reverse(char[] str, int start, int end) {
+        for(int i=start,j=end;i<j;i++,j--) {
+            char c = str[i];
+            str[i] = str[j];
+            str[j] = c;
+        }
+    }
+}
+```
+前两次reverse和是 O(n), 后一次reverse是 O(n) 整体  O(2n) =  O(n)
+
+
