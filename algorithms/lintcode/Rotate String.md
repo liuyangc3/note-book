@@ -63,3 +63,5 @@ public class Solution {
 前两次reverse和是 O(n), 后一次reverse是 O(n) 整体  O(2n) =  O(n)
 
 
+
+
