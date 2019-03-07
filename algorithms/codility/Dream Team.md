@@ -21,3 +21,27 @@ B: [0, 3, 4, 0]
 
 sum = 18
 ```
+
+首先优先从A中选m个数字, A 中选数字的策略是 i 位置上 A[i] - B[i] 差值最大, 这样才能保证和最大
+
+假设 B 都选择得到和 sum, 那我们只需要从A中选一个,减去这个位置对应B的值即可,  即 i 选 A 后, sum += A[i] - B[i], 显然 A[i] - B[i] 最大, sum 就会最大.
+
+```java
+class Solution {
+    public int solution(int[] A, int[] B, int m) {
+        int[] AminusB = new int[A.length];
+        int sumB = 0;
+        for (int i = 0; i < A.length; i++) {
+            sumB += B[i];
+            AminusB[i] = A[i] - B[i];
+        }
+        
+        Arrays.sort(AminusB);
+
+        for (int i = A.length - 1; i > A.length - 1 - m; i--)
+            sumB += AminusB[i];
+        return sumB;
+    }
+}
+```
+
