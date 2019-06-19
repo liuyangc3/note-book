@@ -13,9 +13,11 @@ web 开发用过 Flask Djongo Tornado SpringBoot beego openresty
 
 写过基于netlink的端口分析工具，基于 libcap/ gopacket 的流量分析工具, mysql 实例管理工具
 
-CI/CD Jenkins rundeck PM2
+CI/CD 使用 Jenkins rundeck PM2
 
 运维过 IDC  阿里云 AWS 规模近千台节点
+
+k8s cloud native 体验者
 
 搞过交换机路由器 家用翻墙路由
 
