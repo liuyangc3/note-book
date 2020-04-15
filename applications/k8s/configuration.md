@@ -9,3 +9,13 @@ Reconcile
 https://myslide.cn/slides/9331
 
 https://coreos.com/kubernetes/docs/latest/replication-controller.html#the-reconciliation-loop-in-detail
+
+
+tools:
+- helm
+- kustomize
+- jsonnet/ksonnet-lib
+
+https://gravitational.com/blog/kubernetes-kustomize-kep-kerfuffle/
+
+https://blog.argoproj.io/the-state-of-kubernetes-configuration-management-d8b06c1205
