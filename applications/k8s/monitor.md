@@ -8,8 +8,6 @@
 
 服务指标作为HPA的输入，有时候被叫做custom metrics自定义指标. 
 
-
-```
 ## Metrics server
 Metrics server 前身是 Heapster。Kubernetes v1.8 开始，资源的使用情况可以通过API server 获取，
 kubernetes 提供了 [Metrics API](https://kubernetes.io/docs/tasks/debug-application-cluster/resource-metrics-pipeline/#the-metrics-api), which is under /apis/metrics.k8s.io/ path。 metric-server 属于 core metrics(核心指标)，这些聚合过的数据将存储在内存中，且以 metric-api 的形式暴露出去 以此数据提供给 Dashboard、HPA、scheduler 等使用。
@@ -47,7 +45,7 @@ kubelet 同时也提供一个 HTTP API 服务，但是并没有文档 see [issue
 http://localhost:10255/pods
 http://localhost:10255/stats/summary
 http://localhost:10255/metrics
-
+···
 
 # Book
 https://yasongxu.gitbook.io/container-monitor/
