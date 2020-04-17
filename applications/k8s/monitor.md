@@ -23,6 +23,28 @@ http://localhost:10255/metrics
 ```
 ## Metrics server
 Metrics server 前身是 Heapster。Kubernetes v1.8 开始，资源的使用情况可以通过API server 获取，
-kubernetes 提供了 [Metrics API](https://kubernetes.io/docs/tasks/debug-application-cluster/resource-metrics-pipeline/#the-metrics-api), which is under /apis/metrics.k8s.io/ path。
+kubernetes 提供了 [Metrics API](https://kubernetes.io/docs/tasks/debug-application-cluster/resource-metrics-pipeline/#the-metrics-api), which is under /apis/metrics.k8s.io/ path。 metric-server 属于 core metrics(核心指标)，这些聚合过的数据将存储在内存中，且以 metric-api 的形式暴露出去 以此数据提供给 Dashboard、HPA、scheduler 等使用。
 
-Metrics server 定时从Kubelet的Summary API(/ap1/v1/nodes/nodename/stats/summary)采集指标信息，这些聚合过的数据将存储在内存中，且以metric-api的形式暴露出去
+Metrics server 是一个 aggregation API server, 需要 kube-aggregator。
+
+这部分曝露的指标 Resource Metrics API，而 Custom metrics API 由社区实现如
+- Prometheus Adapter
+- Microsoft Azure Adapter
+- Google Stackdriver
+- Datadog Cluster Agent
+
+
+## kube state metrics
+主要提供 object 级别的监控，例如
+
+- 我调度了多少个replicas？现在可用的有几个？
+- 多少个Pod是running/stopped/terminated状态？
+- Pod重启了多少次？
+- 我有多少job在运行中
+
+https://github.com/kubernetes/kube-state-metrics
+
+
+
+# Book
+https://yasongxu.gitbook.io/container-monitor/
