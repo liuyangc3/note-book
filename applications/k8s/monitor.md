@@ -8,18 +8,7 @@
 
 服务指标作为HPA的输入，有时候被叫做custom metrics自定义指标. 
 
-## collector
-cAdvisor 集成进 kubelet, 所以可以通过kubelet 采集系统监控数据
 
-kubelet 提供 node/pod/container usage information
-
-kubelet 同时也提供一个 HTTP API 服务，但是并没有文档 see [issue](https://github.com/kubernetes/kubernetes/issues/13470)
-
-下面是几个endpoiont
-```
-http://localhost:10255/pods
-http://localhost:10255/stats/summary
-http://localhost:10255/metrics
 ```
 ## Metrics server
 Metrics server 前身是 Heapster。Kubernetes v1.8 开始，资源的使用情况可以通过API server 获取，
@@ -44,6 +33,20 @@ Metrics server 是一个 aggregation API server, 需要 kube-aggregator。
 
 https://github.com/kubernetes/kube-state-metrics
 
+# monitor pipeline
+
+## collector
+cAdvisor 集成进 kubelet, 所以可以通过kubelet 采集系统监控数据
+
+kubelet 提供 node/pod/container usage information
+
+kubelet 同时也提供一个 HTTP API 服务，但是并没有文档 see [issue](https://github.com/kubernetes/kubernetes/issues/13470)
+
+下面是几个endpoiont
+```
+http://localhost:10255/pods
+http://localhost:10255/stats/summary
+http://localhost:10255/metrics
 
 
 # Book
