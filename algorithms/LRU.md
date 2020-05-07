@@ -3,6 +3,9 @@
 * cache has fix size.
 * discards the least recently used items first.
 
+
+## Simple version
+
 first thought is sort each item, from recently to least recently used. then delete least recently used item when cache is full.
 
 let's set up a array, cache[0] is recently used item, and cache[-1] is least recently used
@@ -26,3 +29,12 @@ def get(k):
     return None
 ```
 
+## Challenges
+
+* make set get O(1)
+* single list link
+
+## Refs
+https://leetcode.com/problems/lru-cache/
+
+https://zhuanlan.zhihu.com/p/34133067
