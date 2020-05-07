@@ -32,7 +32,9 @@ def get(k):
 ## Challenges
 
 * make set get O(1)
-* single list link
+* single link list 
+* LinkedHashMap
+* python ordered dict
 
 ## Refs
 https://leetcode.com/problems/lru-cache/
