@@ -8,7 +8,7 @@
 
 first thought is sort each item, from recently to least recently used. then delete least recently used item when cache is full.
 
-let's set up a array, cache[0] is recently used item, and cache[-1] is least recently used
+let's set up a array, so head `cache[0]` is recently used item, and tail `cache[-1]` is least recently used
 ```python
 cache = []
 ```
