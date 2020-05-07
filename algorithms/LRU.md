@@ -18,6 +18,7 @@ so the basic idea is sort of like this
 def set(k, v):
     if is_cache_full():
         delete_least_recently_used_item()
+        put_v_into_cahce_head()
     else:
         put_v_into_cahce_head()
         
