@@ -38,34 +38,22 @@
 # 1
 # 15
 
-def sum_layer(n):
-    # L1 L2 L3 L4
-    # L2 L2 L3
-    # L3 L3 L3
-    # L4 ...
+# L1 L2 L3 L4
+# L2 L2 L3
+# L3 L3 L3
+# L4 ...
 
-    # Sum(Ln) = Number(L1) + Number(L2) + Number(L3) ... + Number(Ln)
-    # Sum(Ln) = 1 + 3 + 5 ... + 2n-1  (n=1,2,3...) 
-    
-    # equals square area
-    return n * n
+# you can see total numbers of layer n = L1 + L2 + L3 + L4 ... + Ln
+#  equals square n area, so sum(Ln) = n^2
 
-
-def layer(n):
-    # Number(L4) = Sum(L4) - Sum(L3)
-    # num = n * n - (n-1)(n-1)
-    return 2 * n -1
-
-
-    
 def main(y, x):
     # return munber of row[y] col[x]
     n = max(x, y)
     i = min(x, y)
 
-    if n == x: # layer first value is small square + 1, index start at column
+    if n == x: # layer first value is square(n-1)  + 1, index start at column
         start = n * n - 2 * n + 2
         return start + i -1
-    # n == y, layer first value is big square, index start at row
+    # n == y, layer first value is square(n), index start at row
     start = n * n
     return start - i + 1
