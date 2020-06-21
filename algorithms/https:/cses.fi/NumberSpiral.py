@@ -55,3 +55,17 @@ def layer(n):
     # Number(L4) = Sum(L4) - Sum(L3)
     # num = n * n - (n-1)(n-1)
     return 2 * n -1
+
+
+    
+def main(y, x):
+    # return munber of row[y] col[x]
+    n = max(x, y)
+    i = min(x, y)
+
+    if n == x: # layer first value is small square + 1, index start at column
+        start = n * n - 2 * n + 2
+        return start + i -1
+    # n == y, layer first value is big square, index start at row
+    start = n * n
+    return start - i + 1
