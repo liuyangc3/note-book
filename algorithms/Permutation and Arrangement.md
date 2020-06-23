@@ -4,6 +4,8 @@
 求 A={1,2,3}的全排列
 
 ## Method 1
+链接：https://leetcode-cn.com/problems/permutations/solution/quan-pai-lie-by-leetcode-solution-2/
+
 可以看出
 - 第一个位置3选择一
 - 当第一个位置选择1后, 下一个位置从 [2,3] 中 2选一
@@ -56,9 +58,13 @@ def dfs(array, current, selected, result):
         dfs(array, current, selected, result)
         # 当 i 这个数字完成遍历后，需要清理 i 的选中标记
         # 这样下个循环 i 仍然是未选中的
+        # 回溯之前的状态
         selected[i] = False
         current.pop()
 
 ```
+
+回溯法: 一种通过探索所有可能的候选解来找出所有的解的算法。如果候选解被确认不是一个解的话（或者至少不是最后一个解），回溯算法会通过在上一步进行一些变化抛弃该解，即回溯并且再次尝试。
+
 
 ## Method 2
