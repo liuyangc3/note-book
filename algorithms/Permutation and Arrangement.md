@@ -3,6 +3,7 @@
 
 求 A={1,2,3}的全排列
 
+## Method 1
 可以看出
 - 第一个位置3选择一
 - 当第一个位置选择1后, 下一个位置从 [2,3] 中 2选一
@@ -36,25 +37,28 @@ def permutation(array: list) -> list:
 ```
 下面构造递归函数
 
+```python3
+def dfs(array, current, selected, result):
+    # 当选中数字长度达到数组长度后，说明已经到子叶节点
+    # 添加结果到结果集并退出函数
+    if len(current) == len(array):
+        result.append(current.copy())
+        return
+
+    for i in range(len(array)):
+        if selected[i]:
+            # 说明当前数字上一步选中了，略过
+            continue
+
+        # 选中数字中加入一个数字
+        current.append(array[i])
+        selected[i] = True
+        dfs(array, current, selected, result)
+        # 当 i 这个数字完成遍历后，需要清理 i 的选中标记
+        # 这样下个循环 i 仍然是未选中的
+        selected[i] = False
+        current.pop()
+
 ```
-def dfs(array, current，selected, result):
-  # 当选中数字长度达到数组长度后，说明已经到子叶节点
-  # 添加结果到结果集并退出函数
-  if len(current) == len(array): 
-      result.append(path)
-      return
-      
-   for i in range(len(array)):
-       if selected[i]:
-           # 说明当前数字上一步选中了，略过
-           continue
-           
-       # 选中数字中加入一个数字
-       current.add(array[i])
-       selected[i] = True
-       dfs(array, current, selected, result)
-       # 当 i 这个数字完成遍历后，需要清理 i 的选中标记
-       # 这样下个循环 i 仍然是未选中的
-       selected[i] = False
-       current.pop()
-```
+
+## Method 2
