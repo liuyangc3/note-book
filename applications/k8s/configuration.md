@@ -14,6 +14,18 @@ https://myslide.cn/slides/9331
 https://coreos.com/kubernetes/docs/latest/replication-controller.html#the-reconciliation-loop-in-detail
 
 
+
+Configuration reconciliation ([aka kubectl apply](https://github.com/kubernetes/kubernetes/issues/1702))
+
+> Once user have generated a set of API objects, it should be possible to perform a number of management operations on them, such as creation, update, or even deletion. Creation and update are performed via a reconciliation process.
+
+https://kubectl.docs.kubernetes.io/pages/kubectl_book/resources_and_controllers.html
+
+> Controllers do not Reconcile events, rather they Reconcile the expected cluster state to the observed cluster state at the time Reconcile is run.
+
+> Because Controllers don't respond to individual Events, but instead Reconcile the state of the system at the time that Reconcile is run, changes from several different events may be observed and Reconciled together. This is referred to as a Level Based system, whereas a system that responds to each event individually would be referred to as an Edge Based system.
+
+
 tools:
 - helm
 - kustomize
