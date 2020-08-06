@@ -16,7 +16,8 @@ OS
 "ansible_distribution": "Ubuntu",
 "ansible_distribution_major_version": "20",
 "ansible_distribution_version": "20.04",
-"ansible_nodename": "..."
+"ansible_nodename": "hostname"
+"ansible_distribution_release": "focal", # bionic
 ```
 Python
 ```
