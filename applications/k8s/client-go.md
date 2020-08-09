@@ -58,7 +58,7 @@ ClientSet 根据resource type生成出的代码没什么好说的
 ---
 对于不是kubernetes内置资源例如CRD，使用 Unstructured 来把resource映射到go struct
 
-Unstructured 可以很方便解构YAML格式的文本到 struct， 并且支持GVR GVK
+Unstructured 可以很方便解构YAML格式的文本到 struct， 并且支持GVR GVK，如下面这个例子
 ```go
 package main
 
