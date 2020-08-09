@@ -49,3 +49,7 @@ if something {
   do logicB
 }
 ```
+
+5.2.3
+---
+ClientSet 根据resource type生成出的代码没什么好将的
