@@ -13,9 +13,9 @@ ClientConfig 有3个实现
 
 5.2.2
 ----
+就是http client 的封装， 代码中有几个小技巧
 
-
-代码可读性, 当 err != nil 时, 逻辑相近的代码放到一起
+1. if else 的代码可读性, 当 err != nil 时, 逻辑相近的代码放到一起
 ```
 // staging\src\k8s.io\client-go\rest\request.go
 		resp, err := client.Do(req)
@@ -49,6 +49,8 @@ if something {
   do logicB
 }
 ```
+
+2. 使用闭包处理 http response 逻辑，方便复用， 我提 issue 到 https://github.com/cloudnativeto/sig-k8s-source-code/issues/17
 
 5.2.3
 ---
