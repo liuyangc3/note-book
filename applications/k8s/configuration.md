@@ -34,3 +34,5 @@ tools:
 https://gravitational.com/blog/kubernetes-kustomize-kep-kerfuffle/
 
 https://blog.argoproj.io/the-state-of-kubernetes-configuration-management-d8b06c1205
+
+https://blog.stack-labs.com/code/kustomize-101/
