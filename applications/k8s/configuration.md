@@ -43,4 +43,4 @@ override vs templating
 
 1. You can override any part in kustomize
 2. configMap hash-suffix if deployment not changed
-3. good for gitops
+3. good for gitops, helm status/history/rollback acctually not saved in git
