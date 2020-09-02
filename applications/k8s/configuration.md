@@ -37,6 +37,8 @@ https://blog.argoproj.io/the-state-of-kubernetes-configuration-management-d8b06c
 
 https://blog.stack-labs.com/code/kustomize-101/
 
+https://speakerdeck.com/spesnova/introduction-to-kustomize
+
 override vs templating
 1. templating DSL like helm only can override parameterized config, and which part should be parameterized? 
 2. learning cost, for pulbic chart need learn helm chart vars first begain to write yaml.
