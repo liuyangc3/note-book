@@ -38,8 +38,9 @@ https://blog.argoproj.io/the-state-of-kubernetes-configuration-management-d8b06c
 https://blog.stack-labs.com/code/kustomize-101/
 
 override vs templating
-1. templating DSL like helm only can override parameterized config, and which part should be parameterized? need learn helm chart vars first begain to write yaml.
-2. DSL in go is complicated for hunman reading and writing. 
+1. templating DSL like helm only can override parameterized config, and which part should be parameterized? 
+2. learning cost, for pulbic chart need learn helm chart vars first begain to write yaml.
+3. DSL in go is complicated for hunman reading and writing. 
 
 1. You can override any part in kustomize
 2. configMap hash-suffix if deployment not changed
