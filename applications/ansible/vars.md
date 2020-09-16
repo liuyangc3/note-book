@@ -12,6 +12,13 @@ Cloud provider
 # AWS
 "ansible_product_name": "c5.xlarge"
 "ansible_system_vendor": "Amazon EC2",
+"owner_id": "000404776716",
+"placement": {
+    "availability_zone": "cn-north-1a",
+    "group_name": "",
+    "region": "cn-north-1",
+    "tenancy": "default"
+},
 ```
 Arch
 ```
