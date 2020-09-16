@@ -1,7 +1,17 @@
+run
+```
+ansible -i inventory/ec2.py tag_xxx -m gather_facts
+```
+
 Cloud provider
 ```
+# Alicloud
 "ansible_product_name": "Alibaba Cloud ECS"
 "ansible_system_vendor": "Alibaba Cloud",
+
+# AWS
+"ansible_product_name": "c5.xlarge"
+"ansible_system_vendor": "Amazon EC2",
 ```
 Arch
 ```
