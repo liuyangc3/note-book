@@ -19,6 +19,9 @@ Cloud provider
     "region": "cn-north-1",
     "tenancy": "default"
 },
+subnet_id": "subnet-053085e6917f0dd45",
+"tags": {},
+"vpc_id": "vpc-09e42a662c5bcccb8",
 ```
 Arch
 ```
