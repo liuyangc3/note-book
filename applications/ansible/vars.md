@@ -9,6 +9,28 @@ Cloud provider
 "ansible_product_name": "Alibaba Cloud ECS"
 "ansible_system_vendor": "Alibaba Cloud",
 
+
+"auto_release_time": "",
+"availability_zone": "ap-southeast-1a",
+"host_name": "zelpool-ali-hhht-00",
+"id": "i-hp3eqgbem0sapkq4802h",
+"image_id": "m-hp3emoz1gbxej9vt40kv",
+"inner_ip_address": "",
+"instance_charge_type": "PrePaid",
+"instance_id": "i-hp3eqgbem0sapkq4802h",
+"instance_name": "zelpool-ali-hhht-00",
+"instance_type": "ecs.c5.xlarge",
+"instance_type_family": "ecs.c5",
+"internet_charge_type": "PayByTraffic",
+"internet_max_bandwidth_in": 1500,
+"internet_max_bandwidth_out": 100,
+"osname": "Ubuntu  18.04 64位",
+"osname_en": "Ubuntu  18.04 64 bit",
+"ostype": "linux",
+"vpc_id": "vpc-t4n8twv78e7ju3m4yfbjd",
+"vswitch_id": "vsw-t4net2ksvqq8qim0bwwkj",
+            
+
 # AWS
 "ansible_product_name": "c5.xlarge"
 "ansible_system_vendor": "Amazon EC2",
