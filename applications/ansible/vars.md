@@ -12,6 +12,38 @@ Cloud provider
 # AWS
 "ansible_product_name": "c5.xlarge"
 "ansible_system_vendor": "Amazon EC2",
+
+"block_device_mappings": [
+    {
+        "device_name": "/dev/sda1",
+        "ebs": {
+            "attach_time": "2020-09-15T09:51:02+00:00",
+            "delete_on_termination": true,
+            "status": "attached",
+            "volume_id": "vol-0cf2504a8294ffa45"
+        }
+    },
+    {
+        "device_name": "/dev/sdb",
+        "ebs": {
+            "attach_time": "2020-09-15T09:51:02+00:00",
+            "delete_on_termination": false,
+            "status": "attached",
+            "volume_id": "vol-02489e62ae21c3019"
+        }
+    }
+],
+"ebs_optimized": true,
+"ena_support": true,
+"group_names": [
+    "aws_ec2",
+    "tag_role_btc_node"
+],
+"image_id": "ami-0071f6f4df15863cc",
+"instance_id": "i-089f71777a4fc256b",
+"instance_type": "c5.xlarge",
+"key_name": "aws-ec2",
+"launch_time": "2020-09-15T09:51:01+00:00",
 "owner_id": "000404776716",
 "placement": {
     "availability_zone": "cn-north-1a",
@@ -19,6 +51,16 @@ Cloud provider
     "region": "cn-north-1",
     "tenancy": "default"
 },
+"public_dns_name": "",
+"public_ip_address": "245.201",
+"public_dns_name": "",
+"public_ip_address": "52.80.245.201",
+"security_groups": [
+  {
+    "group_id": "sg-047c909fbd3aedf44",
+    "group_name": "aws-sg-btc-node"
+   }
+],
 subnet_id": "subnet-053085e6917f0dd45",
 "tags": {},
 "vpc_id": "vpc-09e42a662c5bcccb8",
