@@ -18,3 +18,7 @@ There is also the library [libuuid](https://linux.die.net/man/3/libuuid) which i
 $ uuidgen
 f81cc383-aa75-4714-aa8a-3ce39e8ad33c
 ```
+
+## PartUUID
+[Using the New GUID Partition Table in Linux](https://www.linux.com/training-tutorials/using-new-guid-partition-table-linux-goodbye-ancient-mbr/)
+
