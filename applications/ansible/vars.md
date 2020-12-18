@@ -40,8 +40,6 @@ groups: {} # all group
 output Cloud provider
 ```
 # Alicloud
-"ansible_product_name": "Alibaba Cloud ECS"
-"ansible_system_vendor": "Alibaba Cloud",
 
 "deletion_protection": false,
 "deployment_set_id": "",
@@ -102,8 +100,7 @@ output Cloud provider
 
 
 # AWS
-"ansible_product_name": "c5.xlarge"
-"ansible_system_vendor": "Amazon EC2",
+
 
 "block_device_mappings": [
     {
@@ -157,10 +154,24 @@ subnet_id": "subnet-053085e6917f0dd45",
 "tags": {},
 "vpc_id": "vpc-09e42a662c5bcccb8",
 ```
+# facts
+run
+```
+ansible remote_host -i inventory/inventory.py -l group_name -m gather_facts  # or -m setup
+```
+
+
+output cloud provider
+```
+"ansible_product_name": "Alibaba Cloud ECS"
+"ansible_system_vendor": "Alibaba Cloud",
+"ansible_product_name": "c5.xlarge"
+"ansible_system_vendor": "Amazon EC2",
+```
 
 output Arch
 ```
-ansible_machine": "x86_64",
+"ansible_machine": "x86_64",
 "ansible_userspace_architecture": "x86_64",
 "ansible_userspace_bits": "64",
 ```
@@ -211,10 +222,7 @@ output User
 "ansible_real_user_id": 1015,
 ```
 
-# facts
-```
-ansible remote_host -i inventory/inventory.py -l group_name -m gather_facts  # or -m setup
-```
+
 
 
 # other
