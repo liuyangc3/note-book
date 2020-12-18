@@ -1,6 +1,7 @@
 run
 ```
-ansible-galaxy collection install community.general
+ansible your_remote_host -i inventory/ecs.py tag_xxx -m debug -a 'msg={{ hostvars["your_remote_host"] }}'
+
 ansible -i inventory/ec2.py tag_xxx -m gather_facts
 ```
 
@@ -138,4 +139,9 @@ User
 "ansible_user_gid": 1015,
 "ansible_real_group_id": 1015,
 "ansible_real_user_id": 1015,
+```
+
+# other
+```
+ansible-galaxy collection install community.general
 ```
