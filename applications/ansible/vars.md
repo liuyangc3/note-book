@@ -1,3 +1,27 @@
+# hostvars
+```
+"ansible_check_mode": false,
+"ansible_config_file": "/path/ansible.cfg",
+"ansible_diff_mode": false,
+"ansible_facts": {},
+"ansible_forks": 5,
+"ansible_inventory_sources": [
+  "/path/inventory/alicloud.py"
+],
+"inventory_dir": "/path/inventory",
+"inventory_file": "/path/inventory/alicloud.py",
+"inventory_hostname": "ali_cncdb_btc_node_00",
+"inventory_hostname_short": "ali_cncdb_btc_node_00",
+        
+"ansible_limit": "tag_role_btc_node",  # from -l
+"ansible_playbook_python": "/usr/local/opt/python@3.9/bin/python3.9",
+"ansible_ssh_host": "ip", # from nventory
+"ansible_verbosity": 0,
+group_names: []  # this remote in which group
+groups: {} # all group
+```
+
+
 run
 ```
 ansible your_remote_host -i inventory/ecs.py tag_xxx -m debug -a 'msg={{ hostvars["your_remote_host"] }}'
@@ -11,7 +35,19 @@ Cloud provider
 "ansible_product_name": "Alibaba Cloud ECS"
 "ansible_system_vendor": "Alibaba Cloud",
 
-
+"deletion_protection": false,
+"deployment_set_id": "",
+"description": "btc node",
+"ecs_capacity_reservation_attr": {
+  "capacity_reservation_id": "",
+  "capacity_reservation_preference": ""
+},
+"eip": {
+  "allocation_id": "",
+  "internet_charge_type": "",
+  "ip_address": ""
+},
+"expired_time": "2020-12-31T16:00Z",
 "auto_release_time": "",
 "availability_zone": "ap-southeast-1a",
 "host_name": "zelpool-ali-hhht-00",
@@ -31,7 +67,31 @@ Cloud provider
 "ostype": "linux",
 "vpc_id": "vpc-t4n8twv78e7ju3m4yfbjd",
 "vswitch_id": "vsw-t4net2ksvqq8qim0bwwkj",
-            
+"network_interfaces": [
+{
+    "mac_address": "00:16:3e:01:db:c9",
+    "network_interface_id": "eni-2vc5d3bn254rnxy78dqj",
+    "primary_ip_address": "10.129.xx.xx",
+    "private_ip_sets": {
+        "private_ip_set": [
+            {
+                "primary": true,
+                "private_ip_address": "10.129.xx.xx"
+            }
+        ]
+    },
+    "type": "Primary"
+}
+],  
+"private_ip_address": "10.129.xx.xx",
+"public_ip_address": "xxxx",
+"resource_group_id": "rg-aekzb7kovrhj3pq",
+"status": "running",
+        "tags": {
+            "os": "ubuntu1804",
+            "role": "btc-node"
+        },
+
 
 # AWS
 "ansible_product_name": "c5.xlarge"
