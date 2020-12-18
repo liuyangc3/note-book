@@ -1,3 +1,12 @@
+
+How vars load into runtime `ansible.builtin.host_group_vars` [doc](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/host_group_vars_vars.html#ansible-collections-ansible-builtin-host-group-vars-vars)
+
+var load order https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#understanding-variable-precedence
+
+role var scope  https://github.com/ansible/ansible/issues/68922 `ANSIBLE_PRIVATE_ROLE_VARS=true`
+
+
+
 # hostvars
 
 get hostvar
