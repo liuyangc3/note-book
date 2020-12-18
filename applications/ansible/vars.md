@@ -1,5 +1,6 @@
 run
 ```
+ansible-galaxy collection install community.general
 ansible -i inventory/ec2.py tag_xxx -m gather_facts
 ```
 
