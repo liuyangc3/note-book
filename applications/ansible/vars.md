@@ -1,4 +1,11 @@
 # hostvars
+
+get hostvar
+```bash
+ansible remote_host -i inventory/inventory.py -l group_name -m debug -a 'msg={{ hostvars["remote_host"] }}'
+```
+
+output common
 ```
 "ansible_check_mode": false,
 "ansible_config_file": "/path/ansible.cfg",
@@ -21,15 +28,7 @@ group_names: []  # this remote in which group
 groups: {} # all group
 ```
 
-
-run
-```
-ansible your_remote_host -i inventory/ecs.py tag_xxx -m debug -a 'msg={{ hostvars["your_remote_host"] }}'
-
-ansible -i inventory/ec2.py tag_xxx -m gather_facts
-```
-
-Cloud provider
+output Cloud provider
 ```
 # Alicloud
 "ansible_product_name": "Alibaba Cloud ECS"
@@ -149,14 +148,15 @@ subnet_id": "subnet-053085e6917f0dd45",
 "tags": {},
 "vpc_id": "vpc-09e42a662c5bcccb8",
 ```
-Arch
+
+output Arch
 ```
 ansible_machine": "x86_64",
 "ansible_userspace_architecture": "x86_64",
 "ansible_userspace_bits": "64",
 ```
 
-OS
+output OS
 ```
 "ansible_os_family": "Debian",
 "ansible_distribution": "Ubuntu",
@@ -165,7 +165,8 @@ OS
 "ansible_nodename": "hostname"
 "ansible_distribution_release": "focal", # bionic
 ```
-Python
+
+output Python
 ```
 "ansible_python_version": "3.8.2"
 "discovered_interpreter_python": "/usr/bin/python3",
@@ -190,7 +191,7 @@ Python
 },
 ```
 
-User
+output User
 ```
 "ansible_user_id": "username",
 "ansible_user_shell": "/bin/bash",
@@ -200,6 +201,12 @@ User
 "ansible_real_group_id": 1015,
 "ansible_real_user_id": 1015,
 ```
+
+# facts
+```
+ansible remote_host -i inventory/inventory.py -l group_name -m gather_facts  # or -m setup
+```
+
 
 # other
 ```
