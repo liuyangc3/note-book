@@ -8,6 +8,8 @@ https://awesomeopensource.com/
 - https://github.com/kahun/awesome-sysadmin
 - https://github.com/alebcay/awesome-shell
 - https://github.com/moul/awesome-ssh
+- https://github.com/ramitsurana/awesome-kubernetes
+- https://github.com/rootsongjc/awesome-cloud-native
 
 terminal
 - https://github.com/faressoft/terminalizer
