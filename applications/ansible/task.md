@@ -1,5 +1,13 @@
-```yaml
 
+host
+```yaml
+- hosts: all
+  any_errors_fatal: bool
+
+```
+
+task
+```yaml
 - name: task template
   debug: 
   check_mode: yes  # --check -C
@@ -15,7 +23,7 @@
 ```
 
 when
-```
+```yaml
 # and
 when:
   - a
