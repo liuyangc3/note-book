@@ -4,7 +4,8 @@
   debug: 
   check_mode: yes  # --check -C
   changed_when: bool or expr # define a task is changed
-  diff: no
-  ignore_errors: no
+  diff: bool
+  ignore_errors: bool
+  failed_when: bool or expr # define a task how to fial
   register: name # put output in a var name
 ```
