@@ -1,6 +1,6 @@
-# transformers
+# transformer
 
-transformers allow you change a bit field value in a resource, for example image name, tag, deployment replicas and so on.
+transformer allow you change a bit field value in a resource, for example image name, tag, deployment replicas and so on.
 
 Build in transformers:
 * **namespace** add a namespace in each resource
@@ -10,7 +10,6 @@ Build in transformers:
 * **replicas**
 * **vars**
 * **valueAdd**
-* **nameReferences**
 
 examples
 ```yaml
@@ -29,3 +28,38 @@ replicas:
 - name: deployment-name
   count: 5
 ```
+
+## transformer configuration
+
+default transformer has a `FieldSpec` configuatoin
+```yaml
+group: group # resource gvk 
+version: version # resource gvk
+kind: kind # resource gvk
+path: path/to/the/field # resource spec path that a transformer affect on
+create: false # if spec fied not exist create it
+```
+examples
+```yaml
+# config.yaml
+commonLabels:
+- path: metadata/labels
+  create: true
+
+- path: spec/selector
+  create: true
+  version: v1
+  kind: Service
+  
+# kustomization.yaml
+resources:
+  - ../base
+
+configurations:
+  - config.yaml
+```
+`nameReference`
+
+nameReference is an Kustomize object that holds configurations that point Kustomize to resource references when there are custom resources in play.
+
+`varReference`
