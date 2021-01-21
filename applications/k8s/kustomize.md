@@ -10,6 +10,7 @@ Build in transformers:
 * **replicas**
 * **vars**
 * **valueAdd**
+* **nameReferences**
 
 examples
 ```yaml
