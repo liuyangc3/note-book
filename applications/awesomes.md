@@ -21,3 +21,6 @@ language
 - https://github.com/avelino/awesome-go
 - https://github.com/vinta/awesome-python
 - https://github.com/ziadoz/awesome-php
+
+network
+- https://github.com/zoidbergwill/awesome-ebpf
