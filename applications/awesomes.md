@@ -29,6 +29,7 @@ network
 - https://github.com/github/glb-director Github LB
 - https://github.com/fatedier/frp Proxy
 - https://github.com/ntop/n2n P2P based VPN
+- https://github.com/sshuttle/sshuttle SSH VPN
 
 k8s
 - https://github.com/alibaba/kt-connect traffic forward
