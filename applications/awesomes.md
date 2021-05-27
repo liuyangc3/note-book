@@ -24,3 +24,13 @@ language
 
 network
 - https://github.com/zoidbergwill/awesome-ebpf
+- https://github.com/facebookincubator/katran  Facebook LB
+- https://github.com/google/seesaw  LVS based LB
+- https://github.com/github/glb-director Github LB
+- https://github.com/fatedier/frp Proxy
+- https://github.com/ntop/n2n P2P based VPN
+
+k8s
+- https://github.com/alibaba/kt-connect traffic forward
+- https://github.com/telepresenceio/telepresence traffic forward
+- https://github.com/aylei/kubectl-debug
