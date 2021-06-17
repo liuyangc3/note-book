@@ -81,11 +81,14 @@ Node Port 和 Cluster IP 的 iptables 很相似， 区别是 kube-proxy 会创�
 - node 上其他进程 socket请求随机端口不会使用到这个端口，避免流量意外转发到pod上
 
 
+# pod to pod 
+
+
 容器网络通信运行时调用 CNI 接口 Container Network Interface,CNI 有很多实现, 
 
 flannel 是内置的, 还有 calico , cannel (calico+flannel) 等等
 
-# flannel
+## flannel
 支持多种方式 vxlan udp, udp 性能稍差, vxlan 已经在内核实现
 
 简单记录下大致过程, 后面有空在补全
