@@ -70,10 +70,15 @@ weave           8000.3a83358b1e51       no              vethwe-bridge
 
 ## Node Port
 
-Node Port 和 Cluster IP 的 iptables 很相似， 区别是 kube-proxy 会创建一个进程侦听在 Node Port 上（Cluster IP不会创建进程）
+Node Port 和 Cluster IP 的 iptables 很相似， 区别是 kube-proxy 会创建一个进程侦听在 Node Port 上（Cluster IP不会创建进程），不过需要注意的是：
 
-- 占位这个端口，避免其他进程占用
-- 如果kill掉这个kube-proxy进程，自己启动的进程如果侦听在相同的端口，那么流量同样会通过iptables转发给Pod
+- 即便kube-proxy进程死掉，流量也能继续转发到pod上
+- 如果kill掉这个kube-proxy进程，自己启动的进程如果侦听在相同的端口，那么流量同样会通过iptables转发给Pod，而不会经过进程
+
+无论端口是否占用，流量仍然会转发的pod，但是这个kube-proxy进程还是有意义的
+
+- node 上其他进程 无法 listen 个端口，避免进程使用后出错
+- node 上其他进程 socket请求随机端口不会使用到这个端口，避免流量意外转发到pod上
 
 
 容器网络通信运行时调用 CNI 接口 Container Network Interface,CNI 有很多实现, 
