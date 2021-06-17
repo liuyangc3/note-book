@@ -18,8 +18,10 @@ Endpoints:         10.32.0.5:80,10.32.0.6:80
 ```
 可以看到 cluster ip 负载均衡到2个pod上 10.96.49.63 -> 10.32.0.5:80,10.32.0.6:80
 
-如果 kube-porxy 是iptables mode
+如果 kube-porxy 是iptables mode，kube-proxy 会在 nat table 的 PREROUTING chain 创建 iptables 规则 .
 ```console
+$ iptables -nvL -t nat
+
 Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination         
    10   918 KUBE-SERVICES  all  --  *      *       0.0.0.0/0            0.0.0.0/0            /* kubernetes service portals */
@@ -45,6 +47,33 @@ KUBE-SERVICES -> KUBE-SVC-MOFD5WH2RW6MNEJH(10.96.49.63:80) -> KUBE-SEP-XZSXSKAGW
                                                           |->  KUBE-SEP-YMZLCE5DPP2AQ75P(10.32.0.6:80)
                                                           
 ```
+
+从路由表可以看到 10.32.0.0/24 是走了 weave 设备
+```
+$ ip route
+default via 172.17.0.1 dev ens3 
+10.32.0.0/24 dev weave  proto kernel  scope link  src 10.32.0.1
+```
+
+
+```console
+$ brctl show
+bridge name     bridge id               STP enabled     interfaces
+docker0         8000.0242726c905a       no
+weave           8000.3a83358b1e51       no              vethwe-bridge
+                                                        vethwepl1249f9d
+                                                        vethwepl1c7c031
+                                                        vethwepl3097bf7
+                                                        vethwepl3a95fa2
+                                                        vethweple0c32e5
+```
+
+## Node Port
+
+Node Port 和 Cluster IP 的 iptables 很相似， 区别是 kube-proxy 会创建一个进程侦听在 Node Port 上（Cluster IP不会创建进程）
+
+- 占位这个端口，避免其他进程占用
+- 如果kill掉这个kube-proxy进程，自己启动的进程如果侦听在相同的端口，那么流量同样会通过iptables转发给Pod
 
 
 容器网络通信运行时调用 CNI 接口 Container Network Interface,CNI 有很多实现, 
