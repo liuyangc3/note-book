@@ -7,3 +7,5 @@
 
 EKS node userdata 会调用脚本 `/etc/eks/bootstrap.sh` https://github.com/awslabs/amazon-eks-ami/blob/3616f1da5dab0cc6256ee60df4a0e5f2d8a42684/amazon-eks-nodegroup.yaml#L661
 
+terraform eks module 则会直接调用
+https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/templates/userdata.sh.tpl#L7
