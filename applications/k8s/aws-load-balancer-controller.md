@@ -145,4 +145,39 @@ func NewLoadBalancer(stack core.Stack, id string, spec LoadBalancerSpec) *LoadBa
 
 according CF [ELB doucument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html)
 
-Type: The type of load balancer. The default is application. Allowed values: `application` | `gateway` | `network`, so the `LoadBalancerSpec.Type` decide which kind LB CF will create
+Type: The type of load balancer. The default is application. Allowed values: `application` | `gateway` | `network`, so the `LoadBalancerSpec.Type` decide which kind LB CF will create.
+
+we can see the stack json in log that type is `application`
+```json
+...
+    "AWS::ElasticLoadBalancingV2::LoadBalancer": {
+      "LoadBalancer": {
+        "spec": {
+          "name": "k8s-smsapi-smsapi-1952b82286",
+          "type": "application",
+          "scheme": "internal",
+          "ipAddressType": "ipv4",
+          "subnetMapping": [
+            {
+              "subnetID": "subnet-0493ea8db050e52fd"
+            },
+            {
+              "subnetID": "subnet-04ede54adf273f0f4"
+            },
+            {
+              "subnetID": "subnet-0b0e589bfd6b2ed74"
+            }
+          ],
+          "securityGroups": [
+            {
+              "$ref": "#/resources/AWS::EC2::SecurityGroup/ManagedLBSecurityGroup/status/groupID"
+            }
+          ],
+          "tags": {
+            "Environment": "prod"
+          }
+        }
+      }
+    },
+```
+
