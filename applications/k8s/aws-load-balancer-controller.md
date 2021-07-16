@@ -41,6 +41,17 @@ r.stackDeployer.Deploy failed, so the evnet will get  `Failed deploy model due t
 
 I think the reason is wafv2 service is not in private link, so controller can not access the API. This issue list all the service used in controller https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1855
 
+To disable this service we can set flags `--enable-shield=false -enable-waf=false  --enable-wafv2=false` for controller, or set thess values `false` in helm
+```
+# Enable Shield addon for ALB (default true)
+enableShield:
+
+# Enable WAF addon for ALB (default true)
+enableWaf:
+
+# Enable WAF V2 addon for ALB (default true)
+enableWafv2:
+```
 
 ```go
 // pkg/service/model_builder.go
