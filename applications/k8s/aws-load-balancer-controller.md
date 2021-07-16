@@ -1,6 +1,4 @@
-aws-load-balancer-controller
-
-LB create successfully but it was cliassic LB
+# aws-load-balancer-controller creates a cliassic LB insead of ALB or NLB
 
 I got controller log by `kubectl logs -f -n kube-system --selector 'app.kubernetes.io/instance=aws-load-balancer-controller'`
 
