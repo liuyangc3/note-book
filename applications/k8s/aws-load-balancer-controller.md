@@ -50,3 +50,7 @@ func NewLoadBalancer(stack core.Stack, id string, spec LoadBalancerSpec) *LoadBa
 	return lb
 }
 ```
+
+according CF [ELB doucument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html)
+
+Type: The type of load balancer. The default is application. Allowed values: `application` | `gateway` | `network`, so the `LoadBalancerSpec.Type` decide which kind LB CF will create
