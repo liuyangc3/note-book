@@ -39,8 +39,9 @@ func (r *serviceReconciler) buildAndDeployModel(ctx context.Context, svc *corev1
 }
 ```
 
-r.stackDeployer.Deploy failed
+r.stackDeployer.Deploy failed, so the evnet will get  `Failed deploy model due to RequestError: send request failed caused by: Post "https://wafv2.ap-east-1.amazonaws.com/ ": dial tcp 13.248.36.219:443: i/o timeout`.  
 
+I think the reason is wafv2 service is not in private link, so controller can not access the API. but why it create a classic ELB?
 
 ```go
 // pkg/service/model_builder.go
