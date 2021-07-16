@@ -43,6 +43,9 @@ r.stackDeployer.Deploy failed, so the evnet will get  `Failed deploy model due t
 
 I think the reason is wafv2 service is not in private link, so controller can not access the API. but why it create a classic ELB?
 
+This issue list all the service used in controller https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1855
+
+
 ```go
 // pkg/service/model_builder.go
 func (b *defaultModelBuilder) Build(ctx context.Context, service *corev1.Service) (core.Stack, *elbv2model.LoadBalancer, error) {
