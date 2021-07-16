@@ -41,9 +41,7 @@ func (r *serviceReconciler) buildAndDeployModel(ctx context.Context, svc *corev1
 
 r.stackDeployer.Deploy failed, so the evnet will get  `Failed deploy model due to RequestError: send request failed caused by: Post "https://wafv2.ap-east-1.amazonaws.com/ ": dial tcp 13.248.36.219:443: i/o timeout`.  
 
-I think the reason is wafv2 service is not in private link, so controller can not access the API. but why it create a classic ELB?
-
-This issue list all the service used in controller https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1855
+I think the reason is wafv2 service is not in private link, so controller can not access the API. This issue list all the service used in controller https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1855
 
 
 ```go
@@ -184,3 +182,4 @@ we can see the stack json in log that type is `application`
     },
 ```
 
+But why it create a classic ELB? the provider in tree also support creating LoadBalancer type service see https://github.com/kubernetes/cloud-provider-aws/blob/master/pkg/providers/v1/aws_loadbalancer.go.
