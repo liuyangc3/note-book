@@ -100,3 +100,34 @@ after:
     # output will be hello
     - cat test
 ```
+
+
+## ECR
+require git-runner has a IAM role
+```yaml
+docker:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - |
+      cat << EOF > /kaniko/.docker/config.json
+      # all ecr address
+      {  
+        "credsStore": "ecr-login"
+      }
+      EOF
+      # or signal ecr address
+      {
+        "credHelpers": {
+          "${AWS_ECR_REGISTRY}" : "ecr-login"
+        }
+      }
+      EOF
+    - >
+      /kaniko/executor
+      --context .
+      --destination $AWS_ECR_REGISTRY:$CI_COMMIT_SHORT_SHA
+      --cache=true
+```
