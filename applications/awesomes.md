@@ -29,12 +29,14 @@ network
 - https://github.com/google/seesaw  LVS based LB
 - https://github.com/github/glb-director Github LB
 - https://github.com/fatedier/frp Proxy
-- https://github.com/ntop/n2n P2P based VPN
 - https://github.com/sshuttle/sshuttle SSH VPN
 - https://github.com/snail007/goproxy Proxy
 - https://github.com/buger/goreplay Proxy
 - https://github.com/appneta/tcpreplay Proxy
 - https://github.com/session-replay-tools/tcpcopy 网易 Proxy
+
+- https://github.com/tailscale/tailscale Private WireGuard® VPN
+- https://github.com/ntop/n2n P2P based VPN
 
 k8s
 - https://github.com/alibaba/kt-connect traffic forward
