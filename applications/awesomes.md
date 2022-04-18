@@ -15,6 +15,7 @@ terminal
 - https://github.com/faressoft/terminalizer
 - https://github.com/asciinema/asciinema
 - https://github.com/nsf/termbox-go
+- https://github.com/charmbracelet/bubbletea
 
 
 language
