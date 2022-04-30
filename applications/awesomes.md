@@ -42,3 +42,15 @@ k8s
 - https://github.com/alibaba/kt-connect traffic forward
 - https://github.com/telepresenceio/telepresence traffic forward
 - https://github.com/aylei/kubectl-debug
+
+
+profiler
+
+python
+- https://github.com/benfred/py-spy  静态，每隔一段时间 profile 输出summary，非入侵， overhead 小， 适合 trace 长时间运行项目
+- https://github.com/gaogaotiantian/viztracer 动态，输出每个function时间线而非summary，overhead 大
+- https://github.com/joerick/pyinstrument
+
+
+- https://github.com/ziadoz/awesome-phpyi
+- https://github.com/ziadoz/awesome-php
