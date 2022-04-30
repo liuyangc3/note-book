@@ -33,7 +33,7 @@ nothing to commit, working tree clean
 
 rebase when you added remote and finish commit:
 ```console
-$ git pull --rebase alicloud master
+$ git pull --rebase origin master
 ```
 
 if got conflics, fix conflic go on rebase, then check again:
@@ -88,3 +88,23 @@ Changes not staged for commit:
 *****
 ```
 then fix your code deponds on review. commmit rebase and push again.
+
+## Tags
+
+```console
+# add
+git tag -a v0.2.0 -m "2cd release"
+git push origin v0.2.0
+git push --tags
+
+
+# delete
+git tag --delete <tag>
+git push --delete origin <tag>  
+```
+
+## Branch
+remove non-master branches
+```console
+ git branch | grep -v -E "master|main" | xargs git branch -D
+```
