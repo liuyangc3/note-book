@@ -1,4 +1,7 @@
-https://github.com/topics/awesome
+
+- https://github.com/topics/awesome
+- https://github.com/ziadoz/awesome-phpyi
+- https://github.com/ziadoz/awesome-php
 
 https://awesomeopensource.com/
 
@@ -52,5 +55,3 @@ python
 - https://github.com/joerick/pyinstrument
 
 
-- https://github.com/ziadoz/awesome-phpyi
-- https://github.com/ziadoz/awesome-php
