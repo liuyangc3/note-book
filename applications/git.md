@@ -97,6 +97,9 @@ git tag -a v0.2.0 -m "2cd release"
 git push origin v0.2.0
 git push --tags
 
+# list
+git tag
+git ls-remote --tags origin
 
 # delete
 git tag --delete <tag>
