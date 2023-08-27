@@ -15,10 +15,12 @@ https://awesomeopensource.com/
 - https://github.com/rootsongjc/awesome-cloud-native
 
 terminal
-- https://github.com/faressoft/terminalizer
-- https://github.com/asciinema/asciinema
+- https://github.com/faressoft/terminalizer javascript
+- https://github.com/asciinema/asciinema Python
 - https://github.com/nsf/termbox-go
-- https://github.com/charmbracelet/bubbletea
+- https://github.com/charmbracelet/bubbletea Go
+- https://github.com/rivo/tview
+- https://github.com/gizak/termui baseon termbox-go
 
 
 language
