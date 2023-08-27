@@ -21,6 +21,7 @@ terminal
 - https://github.com/charmbracelet/bubbletea Go
 - https://github.com/rivo/tview
 - https://github.com/gizak/termui baseon termbox-go
+- https://github.com/go-survey/survey
 
 
 language
